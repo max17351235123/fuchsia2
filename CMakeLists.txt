@@ -13,7 +13,9 @@ link_directories(${GTKMM_LIBRARY_DIRS})
 
 
 add_executable(fuchsia2
-        main.cpp)
+        main.cpp
+        MyButton.h
+        MyButton.cpp)
 
 
 include_directories(/usr/include)
