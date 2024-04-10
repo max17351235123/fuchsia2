@@ -1,10 +1,8 @@
-<<<<<<< HEAD
+
 //
 // Created by pjsmi on 4/10/2024.
 //
 
-=======
->>>>>>> origin/main
 #include "MyButton.h"
 
 MyButton::MyButton(Glib::ustring s) {
@@ -28,16 +26,13 @@ MyButton::MyButton()
 }
 // This is a destructor that does nothing in this case.
 MyButton::~MyButton() { }
-<<<<<<< HEAD
+
 // A method that's connected to the button by the command above.
 void MyButton::on_button_clicked()
 {
     std::cout << button_label << " was clicked." << std::endl;
 }
-=======
+
 // A method that connected to the button by the command above.
-void MyButton::on_button_clicked()
-{
-    std::cout << button_label << " was clicked." << std::endl;
-}
->>>>>>> origin/main
+
+
