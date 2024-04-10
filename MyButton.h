@@ -13,3 +13,12 @@ protected:
 //Child widgets:
     Glib::ustring button_label;
 };
+<<<<<<< HEAD
+=======
+
+
+#ifndef FUCHSIA2_MYBUTTON_H
+#define FUCHSIA2_MYBUTTON_H
+
+#endif //FUCHSIA2_MYBUTTON_H
+>>>>>>> origin/main
