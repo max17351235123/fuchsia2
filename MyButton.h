@@ -1,0 +1,15 @@
+#include <gtkmm/window.h>
+#include <gtkmm/button.h>
+#include <iostream>
+class MyButton : public Gtk::Button
+{
+public:
+    MyButton();
+    MyButton(Glib::ustring s);
+    virtual ~MyButton();
+protected:
+//Signal handlers:
+    void on_button_clicked();
+//Child widgets:
+    Glib::ustring button_label;
+};
