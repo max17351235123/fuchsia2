@@ -111,10 +111,8 @@ bool Database::log_to_csv(sqlite3* db, const string& table, const string& filena
     }
     csv_file << std::endl;
 
-    // Iterate over result rows and write to CSV file
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         for (int i = 0; i < num_columns; ++i) {
-            // Retrieve column value as string and write to CSV file
             const unsigned char *column_value = sqlite3_column_text(stmt, i);
             csv_file << column_value;
             if (i < num_columns - 1) {
@@ -124,10 +122,7 @@ bool Database::log_to_csv(sqlite3* db, const string& table, const string& filena
         csv_file << std::endl;
     }
 
-    // Finalize SQL statement
     sqlite3_finalize(stmt);
-
-    // Close CSV file
     csv_file.close();
     return true;
 }
