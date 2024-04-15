@@ -43,17 +43,17 @@ void Database::open() {
 sqlite3* Database::get_curr() const {
     return curr_db;
 }
-
+/*
 string query(const string& table, string id) {
 
     string target = table + "_id";
     string sql = "SELECT id FROM" + target + "WHERE id = " + id + ';';
-    const char* C = sql.c_str()
+    const char* C = sql.c_str();
 
 
 
 }
-
+*/
 
 void Database::close() {
     if (curr_db) {

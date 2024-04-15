@@ -14,8 +14,6 @@ int main(int argc, char *argv[]) {
 
     db.add_row(db.get_curr(), "locations", tab1col, tab1val);
 
-     sqlite3_exec(db.get_curr(), sql.c_str(), nullptr, nullptr, &db.zErrMsg);
-
 }
 
 
