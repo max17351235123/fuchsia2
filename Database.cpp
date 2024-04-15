@@ -44,7 +44,15 @@ sqlite3* Database::get_curr() const {
     return curr_db;
 }
 
+string query(const string& table, string id) {
 
+    string target = table + "_id";
+    string sql = "SELECT id FROM" + target + "WHERE id = " + id + ';';
+    const char* C = sql.c_str()
+
+
+
+}
 
 
 void Database::close() {
@@ -86,6 +94,11 @@ bool Database::add_row(sqlite3* db, const string& table, const vector<string> &c
     }
     return true;
 }
+
+
+
+
+
 
 bool Database::log_to_csv(sqlite3* db, const string& table, const string& filename) {
     ofstream csv_file(filename);
