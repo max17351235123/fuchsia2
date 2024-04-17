@@ -23,9 +23,6 @@ Database* Database::get_db(const string& dbname, const string& dblocation) {
 
 
 
-
-
-
 void Database::open() {
     string full_name = dblocation + "/" + dbname; //find the path based on location and filename
 
@@ -43,17 +40,34 @@ void Database::open() {
 sqlite3* Database::get_curr() const {
     return curr_db;
 }
-/*
-string query(const string& table, string id) {
+
+
+string Database::query(sqlite3* db, const string& table, string& id) {
 
     string target = table + "_id";
-    string sql = "SELECT id FROM" + target + "WHERE id = " + id + ';';
+    string sql = "SELECT id FROM " + target + "WHERE id = " + id + ';';
     const char* C = sql.c_str();
-
-
+    int rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &errMsg);
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_close(db);
+        return;
+    }
 
 }
-*/
+
+string query(const string& table, string value, int filler) {
+
+}
+
+//create account: add_row(users, id, username, password)
+//wrong password OR non-existent username -> rejected (tell you why)
+//correct password -> accepted
+
+
+//USERNAME: oadiuahdlihaslidhsldih
+//PASSWORD:
+
 
 void Database::close() {
     if (curr_db) {
@@ -110,10 +124,6 @@ bool Database::log_to_csv(sqlite3* db, const string& table, const string& filena
     std::string sql = "SELECT * FROM " + table;
 
     sqlite3_stmt *stmt;
-    if (sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL) != SQLITE_OK) {
-        std::cerr << "Failed to prepare SQL statement: " << sqlite3_errmsg(db) << std::endl;
-        return false;
-    }
 
     int num_columns = sqlite3_column_count(stmt);
     for (int i = 0; i < num_columns; ++i) {

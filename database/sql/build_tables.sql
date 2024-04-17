@@ -18,11 +18,12 @@ CREATE TABLE reviews (
 );
 
 CREATE TABLE users (
-      user_id         INT NOT NULL UNIQUE,
+      user_id    INT NOT NULL UNIQUE,
       username   TEXT NOT NULL,
       password   TEXT NOT NULL,
       PRIMARY KEY (user_id)
 );
+
 
 .separator ","
 .mode csv

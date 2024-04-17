@@ -28,7 +28,7 @@ public:
     bool add_row(sqlite3* db, const string& table, const vector<string> &columns, const vector<string>& values);
     bool log_to_csv(sqlite3* db, const string& table, const string& filename);
 
-private:
+        private:
     string dbname;
     string dblocation;
 
