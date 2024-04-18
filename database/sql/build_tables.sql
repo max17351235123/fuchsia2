@@ -7,7 +7,7 @@ CREATE TABLE locations (
 );
 
 CREATE TABLE reviews (
-      review_id         INT NOT NULL UNIQUE,
+      review_id    INT NOT NULL UNIQUE,
       user_id     TEXT NOT NULL,
       location_id TEXT NOT NULL,
       txt        TEXT NOT NULL,
