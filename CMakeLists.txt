@@ -16,6 +16,8 @@ add_executable(fuchsia2
         main.cpp
         Database.h
         Database.cpp
+        MyWindow.cpp
+        UserCredentials.cpp
 )
 
 
