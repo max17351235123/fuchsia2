@@ -11,10 +11,9 @@ CREATE TABLE reviews (
       user_id     TEXT NOT NULL,
       location_id TEXT NOT NULL,
       txt        TEXT NOT NULL,
-      mother     TEXT NOT NULL,
       PRIMARY KEY (review_id),
-      FOREIGN KEY (user_id) REFERENCES users(id),
-      FOREIGN KEY (location_id) REFERENCES locations(id)
+      FOREIGN KEY (user_id) REFERENCES users(user_id),
+      FOREIGN KEY (location_id) REFERENCES locations(location_id)
 );
 
 CREATE TABLE users (

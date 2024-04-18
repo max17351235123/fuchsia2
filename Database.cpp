@@ -67,10 +67,10 @@ sqlite3* Database::get_curr() const {
 
 
 
-string Database::query(const string& table, string id) {
+string Database::query(const string& table, string id, string search) {
 
     string target = table.substr(0,table.size()-1) + "_id";
-    string sql = "SELECT * FROM " + table + " WHERE " + target + " = " + id + ';';
+    string sql = "SELECT " + search + " FROM " + table + " WHERE " + target + " = " + id + ';';
     char *errMsg = nullptr;
 
     int rc = sqlite3_exec(get_curr(), sql.c_str(), cb_row, this, &errMsg);
