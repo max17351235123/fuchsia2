@@ -7,6 +7,9 @@ void UserCredentials::addCredential(const std::string& username, const std::stri
     credentials[username] = password;
 }
 bool UserCredentials::authenticateUser(const std::string& username, const std::string& password) {
+
+    //string output = query("users", "username", username): outputs the password
+
     auto it = credentials.find(username);
     if (it != credentials.end() && it->second == password) {
         return true;
