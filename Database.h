@@ -16,7 +16,7 @@ public:
     char *zErrMsg;
     sqlite3 *curr_db = nullptr;
     static Database* database;
-
+    string result;
     Database(const string& dbname, const string& dblocation);
     ~Database();
     void open();
