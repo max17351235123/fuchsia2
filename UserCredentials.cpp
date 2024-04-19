@@ -3,18 +3,26 @@
 //
 
 #include "UserCredentials.h"
+#include <iostream>
+using namespace std;
 void UserCredentials::addCredential(const std::string& username, const std::string& password) {
     credentials[username] = password;
 }
 bool UserCredentials::authenticateUser(const std::string& username, const std::string& password) {
 
     //string output = query("users", "username", username): outputs the password
-
-    auto it = credentials.find(username);
-    if (it != credentials.end() && it->second == password) {
+    string output = " ";
+    if(output == password){
         return true;
     }
-    return false;
+    if (output != password) {
+        cerr << "The password doesn't seem to match the username" << endl;
+        return false;
+    }
+    if (output == " ") {
+        cerr << "There is no account associated with that username" << endl;
+        return false;
+    }
 }
 
 void UserCredentials::removeCredential(const std::string& username) {
