@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
    //vector<string> tab1val = {"7", "lafayette_college", "sunny", "false"};
 
     //db.add_row(db.get_curr(), "locations", tab1col, tab1val);
-    cout << db.query("locations", "10", "name");
+    cout << db.query("locations", "location_id", "5","name");
 
     //test code to run usrnme pswd GUI
     /*

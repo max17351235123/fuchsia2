@@ -4,14 +4,22 @@
 
 #include "UserCredentials.h"
 #include <iostream>
+#include <vector>
+#include <sqlite3.h>
+#include "Database.h"
 using namespace std;
+
 void UserCredentials::addCredential(const std::string& username, const std::string& password) {
-    credentials[username] = password;
+    //vector<string> tab1col = {"location_id", "username", "attribute", "reservation"};
+   // vector<string> newAccount = {"1", "lafayette_college", "sunny", "false"};
+
+   // db.add_row(db.get_curr(), "locations", tab1col, tab1val);
+
 }
 bool UserCredentials::authenticateUser(const std::string& username, const std::string& password) {
 
-    //string output = query("users", "username", username): outputs the password
-    string output = " ";
+    string output = db->query("users", "password", username,"password"); // outputs the password
+
     if(output == password){
         return true;
     }
@@ -23,13 +31,9 @@ bool UserCredentials::authenticateUser(const std::string& username, const std::s
         cerr << "There is no account associated with that username" << endl;
         return false;
     }
+    return false;
+
 }
 
-void UserCredentials::removeCredential(const std::string& username) {
-    credentials.erase(username);
-}
 
-size_t UserCredentials::getNumCredentials() const {
-    return credentials.size();
-}
 
