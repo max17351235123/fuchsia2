@@ -9,16 +9,25 @@
 #include "Database.h"
 using namespace std;
 
-void UserCredentials::addCredential(const std::string& username, const std::string& password) {
-    //vector<string> tab1col = {"location_id", "username", "attribute", "reservation"};
-   // vector<string> newAccount = {"1", "lafayette_college", "sunny", "false"};
-
-   // db.add_row(db.get_curr(), "locations", tab1col, tab1val);
-
+UserCredentials::UserCredentials() {
+    db = Database::get_db("napspots.sqlite", "../database");
 }
-bool UserCredentials::authenticateUser(const std::string& username, const std::string& password) {
+UserCredentials::~UserCredentials(){
+}
 
-    string output = db->query("users", "password", username,"password"); // outputs the password
+void UserCredentials::addCredential(const string& user_id, const std::string& username, const std::string& password) {
+    vector<string> tab1col = {"user_id", "username", "password"};
+    vector<string> newAccount = {"1", username, password};
+    db->add_row(db->get_curr(), "users", tab1col, newAccount);
+    string file = db->get_location() + "/csv/users.csv";
+    cout << file << endl;
+    db->log_to_csv("users", file);
+}
+
+bool UserCredentials::authenticateUser(const std::string& username, const std::string& password) {
+    cout << username << endl;
+    string output = db->query("users", "password", "username", username); // outputs the password
+    cout << output;
 
     if(output == password){
         return true;
