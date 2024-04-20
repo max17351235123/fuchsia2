@@ -7,22 +7,22 @@ CREATE TABLE locations (
 );
 
 CREATE TABLE reviews (
-      review_id         INT NOT NULL UNIQUE,
+      review_id    INT NOT NULL UNIQUE,
       user_id     TEXT NOT NULL,
       location_id TEXT NOT NULL,
       txt        TEXT NOT NULL,
-      mother     TEXT NOT NULL,
       PRIMARY KEY (review_id),
-      FOREIGN KEY (user_id) REFERENCES users(id),
-      FOREIGN KEY (location_id) REFERENCES locations(id)
+      FOREIGN KEY (user_id) REFERENCES users(user_id),
+      FOREIGN KEY (location_id) REFERENCES locations(location_id)
 );
 
 CREATE TABLE users (
-      user_id         INT NOT NULL UNIQUE,
+      user_id    INT NOT NULL UNIQUE,
       username   TEXT NOT NULL,
       password   TEXT NOT NULL,
       PRIMARY KEY (user_id)
 );
+
 
 .separator ","
 .mode csv
