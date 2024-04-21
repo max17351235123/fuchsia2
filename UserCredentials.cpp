@@ -43,7 +43,7 @@ int UserCredentials::authenticateUser(const string& username, const string& pass
     if(output == password){
         return 0;
     }
-    if (output == "") {
+    if (output.empty()) {
         cerr << "There is no account associated with that username" << endl;
         return 2;
     }
