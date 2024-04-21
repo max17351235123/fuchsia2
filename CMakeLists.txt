@@ -12,6 +12,8 @@ include_directories(${GTKMM_INCLUDE_DIRS})
 link_directories(${GTKMM_LIBRARY_DIRS})
 
 include_directories(googletest googletest/include googletest/include/gtest)
+add_executable(unittests googletest/src/gtest-all.cc
+        tests/unittests.cpp)
 
 add_executable(fuchsia2
         main.cpp
@@ -19,7 +21,6 @@ add_executable(fuchsia2
         Database.cpp
         MyWindow.cpp
         UserCredentials.cpp
-        unittests googletest/src/gtest-all.cc
 )
 
 
