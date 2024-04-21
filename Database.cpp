@@ -67,25 +67,21 @@ sqlite3* Database::get_curr() const {
 
 
 
-string Database::query(const string& table, const string& column, const string& value, const string& search) {
-
-    //string output = query("users", "username", username): outputs the password
-    string sql = "SELECT " + search + " FROM " + table + " WHERE " + value + " = " + column + ';';
+string Database::query(const string& table, string id, string search) {
+//a
+    string target = table.substr(0,table.size()-1) + "_id";
+    string sql = "SELECT " + search + " FROM " + table + " WHERE " + target + " = " + id + ';';
     char *errMsg = nullptr;
 
-
-
     int rc = sqlite3_exec(get_curr(), sql.c_str(), cb_row, this, &errMsg);
-    //int rc = sqlite3_exec(get_curr(), sql.c_str(), nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << errMsg << std::endl;
         sqlite3_free(errMsg);
         return "";
     } else {
         std::cout << "Query executed successfully" << std::endl;
-        if (result.size()==0) {
+        if (result.size() == 0) {
             cerr << "search not found" << endl;
-            return "";
         }
         else {
             return result;
