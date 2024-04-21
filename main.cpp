@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 
     //db.add_row(db.get_curr(), "locations", tab1col, tab1val);
     //cout << db.query("locations", "location_id", "5","name");
-    //uc.addCredential("1","max_votaw","password1");
+    uc.addCredential("max_votaw1","password1");
     cout << uc.authenticateUser("max_votaw", "password1") << endl;
     cout << uc.authenticateUser("max_votax", "password1") << endl;
 

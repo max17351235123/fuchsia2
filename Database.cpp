@@ -69,8 +69,6 @@ string Database::query(const string& table, const string& output_column, const s
     char *errMsg = nullptr;
 
 
-
-
     int rc = sqlite3_exec(get_curr(), sql.c_str(), cb_row, this, &errMsg);
     //int rc = sqlite3_exec(get_curr(), sql.c_str(), nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
@@ -85,6 +83,30 @@ string Database::query(const string& table, const string& output_column, const s
         }
         else {
             return result;
+        }
+    }
+}
+
+int Database::id_query(const string& table, const string& id_column) {
+    result.clear();
+    string sql = "SELECT MAX(" + id_column + ") FROM " + table + ";";
+
+    char *errMsg = nullptr;
+
+    int rc = sqlite3_exec(get_curr(), sql.c_str(), cb_row, this, &errMsg);
+
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+        return 0;
+    } else {
+        std::cout << "Query executed successfully" << std::endl;
+        if (result.empty()) {
+            cerr << "search not found" << endl;
+            return 0;
+        }
+        else {
+            return stoi(result);
         }
     }
 }

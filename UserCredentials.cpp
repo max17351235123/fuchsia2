@@ -15,12 +15,13 @@ UserCredentials::UserCredentials() {
 UserCredentials::~UserCredentials(){
 }
 
-void UserCredentials::addCredential(const string& user_id, const std::string& username, const std::string& password) {
+void UserCredentials::addCredential(const std::string& username, const std::string& password) {
+
+    int user_id = db->id_query("users", "user_id") + 1;
     vector<string> tab1col = {"user_id", "username", "password"};
-    vector<string> newAccount = {"1", username, password};
+    vector<string> newAccount = {to_string(user_id), username, password};
     db->add_row(db->get_curr(), "users", tab1col, newAccount);
     string file = db->get_location() + "/csv/users.csv";
-    cout << file << endl;
     db->log_to_csv("users", file);
 }
 
