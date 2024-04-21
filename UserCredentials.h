@@ -13,8 +13,10 @@ private:
     Database* db;
 
 public:
+    UserCredentials();
+    ~UserCredentials();
     void addCredential(const std::string& username, const std::string& password);
-    bool authenticateUser(const std::string& username, const std::string& password);
+    int authenticateUser(const std::string& username, const std::string& password);
 };
 
 

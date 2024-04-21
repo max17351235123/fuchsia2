@@ -9,30 +9,49 @@
 #include "Database.h"
 using namespace std;
 
-void UserCredentials::addCredential(const std::string& username, const std::string& password) {
-    //vector<string> tab1col = {"location_id", "username", "attribute", "reservation"};
-   // vector<string> newAccount = {"1", "lafayette_college", "sunny", "false"};
-
-   // db.add_row(db.get_curr(), "locations", tab1col, tab1val);
-
+UserCredentials::UserCredentials() {
+    db = Database::get_db("napspots.sqlite", "../database");
 }
-bool UserCredentials::authenticateUser(const std::string& username, const std::string& password) {
+UserCredentials::~UserCredentials(){
+}
 
-    string output = db->query("users", "password", username,"password"); // outputs the password
+void UserCredentials::addCredential(const std::string& username, const std::string& password) {
 
+    //add 1 to the biggest ccurrent user_id
+    int user_id = db->id_query("users", "user_id") + 1;
+
+    //add a new account
+    vector<string> usertable = {"user_id", "username", "password"};
+    vector<string> newAccount = {to_string(user_id), username, password};
+
+    int auth = authenticateUser(username, password);
+    if (auth != 2) {
+        cout << "authenticate user outputting " << auth << endl;
+        cerr << "account with that name already exists" << endl;
+        return;
+    }
+
+    db->add_row(db->get_curr(), "users", usertable, newAccount);
+
+    //log it to the csv
+    string file = db->get_location() + "/csv/users.csv";
+    db->log_to_csv("users", file);
+}
+
+int UserCredentials::authenticateUser(const string& username, const string& password) {
+    string output = db->query("users", "password", "username", username);
     if(output == password){
-        return true;
+        return 0;
+    }
+    if (output == "") {
+        cerr << "There is no account associated with that username" << endl;
+        return 2;
     }
     if (output != password) {
         cerr << "The password doesn't seem to match the username" << endl;
-        return false;
+        return 1;
     }
-    if (output == " ") {
-        cerr << "There is no account associated with that username" << endl;
-        return false;
-    }
-    return false;
-
+    return 3;
 }
 
 
