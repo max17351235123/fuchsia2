@@ -6,16 +6,17 @@
 #define EXAMPLE_03_USERCREDENTIALS_H
 #include <string>
 #include <unordered_map>
+#include "Database.h"
 
 class UserCredentials {
 private:
-    std::unordered_map<std::string, std::string> credentials;
+    Database* db;
 
 public:
+    UserCredentials();
+    ~UserCredentials();
     void addCredential(const std::string& username, const std::string& password);
-    bool authenticateUser(const std::string& username, const std::string& password);
-    void removeCredential(const std::string& username);
-    size_t getNumCredentials() const;
+    int authenticateUser(const std::string& username, const std::string& password);
 };
 
 

@@ -9,6 +9,7 @@
 using namespace std;
 
 Database db("napspots.sqlite", "../database");
+UserCredentials uc;
 
 int main(int argc, char *argv[]) {
     //a
@@ -16,7 +17,12 @@ int main(int argc, char *argv[]) {
    //vector<string> tab1val = {"7", "lafayette_college", "sunny", "false"};
 
     //db.add_row(db.get_curr(), "locations", tab1col, tab1val);
-    cout << db.query("locations", "10", "name");
+    //cout << db.query("locations", "location_id", "5","name");
+    uc.addCredential("max_votaw2","password1");
+    uc.addCredential("max_votaw2","password1");
+    //cout << uc.authenticateUser("max_votaw", "password1") << endl;
+    //cout << uc.authenticateUser("max_votax", "password1") << endl;
+
 
     auto app =
             Gtk::Application::create(argc, argv, "edu.cs205.example03");

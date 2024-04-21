@@ -5,7 +5,6 @@
 #include "MyWindow.h"
 
 
-
     MyWindow::MyWindow()
     {
         set_title("Login");
@@ -50,7 +49,8 @@ void MyWindow::on_login_clicked() {
         dialog.run();
     }
 }
-void MyWindow::on_create_account_clicked() {
+
+void MyWindow::on_create_account_clicked() { /*
     std::string username = username_entry->get_text();
     std::string password = password_entry->get_text();
 
@@ -62,4 +62,6 @@ void MyWindow::on_create_account_clicked() {
         Gtk::MessageDialog dialog(*this, "Account created successfully!", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);
         dialog.run();
     }
+    */
 }
+
