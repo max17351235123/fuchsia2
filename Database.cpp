@@ -53,7 +53,6 @@ void Database::open() {
         cerr << " File -- " << full_name << endl;
         exit(0);
     } else {
-        cerr << "Opened database successfully" << endl; //if it works send confirmation message
     }
 }
 
@@ -76,7 +75,7 @@ string Database::query(const string& table, const string& output_column, const s
         sqlite3_free(errMsg);
         return "";
     } else {
-        std::cout << "Query executed successfully" << std::endl;
+        //cout << "Query executed successfully" << std::endl;
         if (result.empty()) {
             cerr << "search not found" << endl;
             return "";

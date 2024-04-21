@@ -17,32 +17,41 @@ UserCredentials::~UserCredentials(){
 
 void UserCredentials::addCredential(const std::string& username, const std::string& password) {
 
+    //add 1 to the biggest ccurrent user_id
     int user_id = db->id_query("users", "user_id") + 1;
-    vector<string> tab1col = {"user_id", "username", "password"};
+
+    //add a new account
+    vector<string> usertable = {"user_id", "username", "password"};
     vector<string> newAccount = {to_string(user_id), username, password};
-    db->add_row(db->get_curr(), "users", tab1col, newAccount);
+
+    int auth = authenticateUser(username, password);
+    if (auth != 2) {
+        cout << "authenticate user outputting " << auth << endl;
+        cerr << "account with that name already exists" << endl;
+        return;
+    }
+
+    db->add_row(db->get_curr(), "users", usertable, newAccount);
+
+    //log it to the csv
     string file = db->get_location() + "/csv/users.csv";
     db->log_to_csv("users", file);
 }
 
-bool UserCredentials::authenticateUser(const std::string& username, const std::string& password) {
-    cout << username << endl;
-    string output = db->query("users", "password", "username", username); // outputs the password
-    cout << output;
-
+int UserCredentials::authenticateUser(const string& username, const string& password) {
+    string output = db->query("users", "password", "username", username);
     if(output == password){
-        return true;
+        return 0;
+    }
+    if (output == "") {
+        cerr << "There is no account associated with that username" << endl;
+        return 2;
     }
     if (output != password) {
         cerr << "The password doesn't seem to match the username" << endl;
-        return false;
+        return 1;
     }
-    if (output == " ") {
-        cerr << "There is no account associated with that username" << endl;
-        return false;
-    }
-    return false;
-
+    return 3;
 }
 
 
