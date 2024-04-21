@@ -24,14 +24,15 @@ public:
 
     static Database* get_db(const string& dbname, const string& dblocation);
     sqlite3* get_curr() const;
-    string query(const string& table, string id, string returnval); //find a value based on the primary key
+    string query(const string& table, const string& output_column, const string& search_column, const string& search);
     bool add_row(sqlite3* db, const string& table, const vector<string> &columns, const vector<string>& values);
-    bool log_to_csv(sqlite3* db, const string& table, const string& filename);
+    bool log_to_csv(const string& table, const string& filename) const;
+    string get_location();
+    string get_name();
 
-        private:
+private:
     string dbname;
     string dblocation;
-
 };
 
 #endif //FUCHSIA2_DATABASE_H

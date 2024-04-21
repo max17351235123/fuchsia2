@@ -14,22 +14,21 @@ Database::~Database() {
     sqlite3_close(curr_db);
 }
 
+string Database::get_location() {
+    return dblocation;
+}
+
+string Database::get_name() {
+    return dbname;
+}
+
 static int cb_row(void *data, int argc, char **argv, char **azColName) {
     Database* db = static_cast<Database*>(data);
-    std::string result;
-    if (argc == 0) {
+    if (argc > 0 && argv[0] != nullptr) {
+        db->result = argv[0]; // Assign the value of the first column to the result string
+    } else {
         cout << "null" << endl;
     }
-    for (int i = 0; i < argc; i++) {
-        result += azColName[i];
-        result += " = ";
-        result += argv[i] ? argv[i] : "NULL";
-        result += ", ";
-    }
-    if (!result.empty()) {
-        result.erase(result.length() - 2);
-    }
-    db->result = result;
     return 0;
 }
 
@@ -41,9 +40,6 @@ Database* Database::get_db(const string& dbname, const string& dblocation) {
     database = new Database(dbname, dblocation);
     return database;
 }
-
-
-
 
 
 
@@ -65,23 +61,27 @@ sqlite3* Database::get_curr() const {
     return curr_db;
 }
 
+string Database::query(const string& table, const string& output_column, const string& search_column, const string& search) {
+    // Construct the SQL query string
+    result.clear();
+    string sql = "SELECT " + output_column + " FROM " + table + " WHERE " + search_column + " = '" + search + "';";
 
-
-string Database::query(const string& table, string id, string search) {
-//a
-    string target = table.substr(0,table.size()-1) + "_id";
-    string sql = "SELECT " + search + " FROM " + table + " WHERE " + target + " = " + id + ';';
     char *errMsg = nullptr;
 
+
+
+
     int rc = sqlite3_exec(get_curr(), sql.c_str(), cb_row, this, &errMsg);
+    //int rc = sqlite3_exec(get_curr(), sql.c_str(), nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << errMsg << std::endl;
         sqlite3_free(errMsg);
         return "";
     } else {
         std::cout << "Query executed successfully" << std::endl;
-        if (result.size() == 0) {
+        if (result.empty()) {
             cerr << "search not found" << endl;
+            return "";
         }
         else {
             return result;
@@ -125,7 +125,7 @@ bool Database::add_row(sqlite3* db, const string& table, const vector<string> &c
     } else {
         std::cout << "Row added successfully." << std::endl;
         string csvfile = dblocation + "/csv/" + table + ".csv";
-        log_to_csv(db, table, csvfile);
+        log_to_csv(table, csvfile);
     }
     return true;
 }
@@ -135,7 +135,7 @@ bool Database::add_row(sqlite3* db, const string& table, const vector<string> &c
 
 
 
-bool Database::log_to_csv(sqlite3* db, const string& table, const string& filename) {
+bool Database::log_to_csv(const string& table, const string& filename) const {
     ofstream csv_file(filename);
     if (!csv_file.is_open()) {
         std::cerr << "Failed to open CSV file: " << filename << std::endl;
@@ -145,8 +145,8 @@ bool Database::log_to_csv(sqlite3* db, const string& table, const string& filena
     std::string sql = "SELECT * FROM " + table;
 
     sqlite3_stmt *stmt;
-    if (sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL) != SQLITE_OK) {
-        std::cerr << "Failed to prepare SQL statement: " << sqlite3_errmsg(db) << std::endl;
+    if (sqlite3_prepare_v2(get_curr(), sql.c_str(), -1, &stmt, NULL) != SQLITE_OK) {
+        std::cerr << "Failed to prepare SQL statement: " << sqlite3_errmsg(get_curr()) << std::endl;
         return false;
     }
 
