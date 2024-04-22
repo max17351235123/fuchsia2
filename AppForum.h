@@ -1,13 +1,17 @@
 //
 // Created by laure on 2024/4/15.
 //
-
 #ifndef FUCHSIA2_APPFORUM_H
 #define FUCHSIA2_APPFORUM_H
 
 #include <gtkmm.h>
 #include <vector>
 #include <string>
+
+struct ForumPost {
+    std::string username;
+    std::string message;
+};
 
 class AppForum : public Gtk::Box
 {
@@ -18,11 +22,17 @@ public:
 protected:
     Gtk::TextView forum_text_view;
     Gtk::Entry forum_text_entry;
+    Gtk::Entry username_entry;
     Gtk::Button forum_post_button;
 
-    std::vector<std::string> forum_posts;
+    Gtk::Box post_box;
+    Gtk::Box username_box;
+    Gtk::Label username_label;
+
+    std::vector<ForumPost> forum_posts;
 
     void on_forum_post_button_clicked();
+    void create_post_view(const ForumPost& post);
 };
 
 #endif //FUCHSIA2_APPFORUM_H
