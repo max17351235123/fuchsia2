@@ -41,20 +41,26 @@ void MyWindow::on_login_clicked() {
     std::string username = username_entry->get_text();
     std::string password = password_entry->get_text();
 
-    if (credentials.authenticateUser(username, password)) {
+    if (credentials.authenticateUser(username, password)==0) {
         Gtk::MessageDialog dialog(*this, "Authentication successful!", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);
         dialog.run();
+    } else if(credentials.authenticateUser(username, password)==2) {
+        Gtk::MessageDialog dialog(*this, "There is no account associated with that username", false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
+        dialog.run();
+    } else if(credentials.authenticateUser(username, password)==1) {
+        Gtk::MessageDialog dialog(*this, "Wrong Password.", false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
+        dialog.run();
     } else {
-        Gtk::MessageDialog dialog(*this, "Invalid credentials.", false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
+        Gtk::MessageDialog dialog(*this, "Invalid Credentials.", false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
         dialog.run();
     }
 }
 
-void MyWindow::on_create_account_clicked() { /*
+void MyWindow::on_create_account_clicked() {
     std::string username = username_entry->get_text();
     std::string password = password_entry->get_text();
 
-    if (credentials.authenticateUser(username, "")) {
+    if (credentials.authenticateUser(username, password)<2) {
         Gtk::MessageDialog dialog(*this, "Username already exists.", false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
         dialog.run();
     } else {
@@ -62,6 +68,6 @@ void MyWindow::on_create_account_clicked() { /*
         Gtk::MessageDialog dialog(*this, "Account created successfully!", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);
         dialog.run();
     }
-    */
+
 }
 
