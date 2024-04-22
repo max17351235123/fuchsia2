@@ -2,7 +2,6 @@ CREATE TABLE locations (
       location_id     INT NOT NULL UNIQUE,
       name            TEXT NOT NULL,
       attribute       TEXT NOT NULL,
-      reservation     BOOL NOT NULL,
       PRIMARY KEY (location_id)
 );
 
