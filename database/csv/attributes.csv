@@ -1,3 +1,9 @@
 attribute_id,napspot_id,attribute
 1,1,sunny
 2,1,noisy
+3,2,sunny
+4,2,noisy
+5,3,sunny
+6,3,noisy
+7,4,dark
+8,4,quiet

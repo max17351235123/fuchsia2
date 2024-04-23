@@ -31,4 +31,12 @@ bool Napspot::add_attribute(const string& napspot_id, const string& attribute) {
     return true;
 }
 
+bool Napspot::remove_napspot(const string& name) {
+    string napspot_id = db->query("napspots", "napspot_id", "name", name);
+    db->remove_row("napspots", napspot_id);
+    return true;
+}
 
+vector<string> Napspot::get_attribute(const string& name) {
+    return null;
+}

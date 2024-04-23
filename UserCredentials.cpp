@@ -26,7 +26,6 @@ void UserCredentials::addCredential(const std::string& username, const std::stri
 
     int auth = authenticateUser(username, password);
     if (auth != 2) {
-        cout << "authenticate user outputting " << auth << endl;
         cerr << "account with that name already exists" << endl;
         return;
     }

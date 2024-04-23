@@ -28,6 +28,7 @@ public:
     int id_query(const string& table, const string& id_column);
     bool add_row(const string& table, const vector<string> &columns, const vector<string>& values);
     bool log_to_csv(const string& table, const string& filename) const;
+    bool remove_row(const string& table, const string &id) ;
     string get_location();
     string get_name();
 

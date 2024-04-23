@@ -1,6 +1,6 @@
 CREATE TABLE napspots (
       napspot_id     INT NOT NULL UNIQUE,
-      name            TEXT NOT NULL,
+      name            TEXT NOT NULL UNIQUE,
       PRIMARY KEY (napspot_id)
 );
 

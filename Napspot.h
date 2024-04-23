@@ -21,9 +21,10 @@ public:
     ~Napspot();
     bool add_napspot(const string& name, const vector<string>& attributes);
     bool add_attribute(const string& napspot_id, const string& attribute);
+    bool remove_napspot(const string &name);
+
 private:
     Database *db;
-
 
 };
 

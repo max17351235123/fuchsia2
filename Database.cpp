@@ -26,8 +26,6 @@ static int cb_row(void *data, int argc, char **argv, char **azColName) {
     Database* db = static_cast<Database*>(data);
     if (argc > 0 && argv[0] != nullptr) {
         db->result = argv[0];
-    } else {
-        cout << "null" << endl;
     }
     return 0;
 }
@@ -75,7 +73,6 @@ string Database::query(const string& table, const string& output_column, const s
         sqlite3_free(errMsg);
         return "";
     } else {
-        //cout << "Query executed successfully" << std::endl;
         if (result.empty()) {
             cerr << "search not found" << endl;
             return "";
@@ -92,14 +89,13 @@ int Database::id_query(const string& table, const string& id_column) {
     char *errMsg = nullptr;
 
     int rc = sqlite3_exec(get_curr(), sql.c_str(), cb_row, this, &errMsg);
-    cout << "result: " << result << endl;
+
 
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << errMsg << std::endl;
         sqlite3_free(errMsg);
         return 0;
     } else {
-        std::cout << "Query executed successfully" << std::endl;
         if (result.empty()) {
             cerr << "search not found" << endl;
             return 0;
@@ -136,15 +132,12 @@ bool Database::add_row(const string& table, const vector<string> &columns, const
     }
     sql += ")";
 
-    cout << sql << endl;
-
     char *errMsg = nullptr;
     int rc = sqlite3_exec(get_curr(), sql.c_str(), nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << errMsg << std::endl;
         sqlite3_free(errMsg);
     } else {
-        std::cout << "Row added successfully." << std::endl;
         string csvfile = dblocation + "/csv/" + table + ".csv";
         log_to_csv(table, csvfile);
     }
@@ -195,3 +188,21 @@ bool Database::log_to_csv(const string& table, const string& filename) const {
     csv_file.close();
     return true;
 }
+
+bool Database::remove_row(const string &table, const string &id) {
+    string table2 = table;
+    string idname = table2.erase(table.size() - 1);
+    string sql = "DELETE FROM " + table + " WHERE " + idname + "_id" + " = '" + id + "';";
+
+    char *errMsg = nullptr;
+    int rc = sqlite3_exec(get_curr(), sql.c_str(), nullptr, nullptr, &errMsg);
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+    } else {
+        string csvfile = dblocation + "/csv/" + table + ".csv";
+        log_to_csv(table, csvfile);
+    }
+    return true;
+}
+
