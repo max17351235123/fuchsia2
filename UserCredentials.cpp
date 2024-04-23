@@ -31,7 +31,7 @@ void UserCredentials::addCredential(const std::string& username, const std::stri
         return;
     }
 
-    db->add_row(db->get_curr(), "users", usertable, newAccount);
+    db->add_row("users", usertable, newAccount);
 
     //log it to the csv
     string file = db->get_location() + "/csv/users.csv";

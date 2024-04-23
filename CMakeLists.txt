@@ -21,6 +21,7 @@ add_executable(fuchsia2
         Database.cpp
         MyWindow.cpp
         UserCredentials.cpp
+        Napspot.cpp
 )
 
 

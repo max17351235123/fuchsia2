@@ -25,7 +25,7 @@ string Database::get_name() {
 static int cb_row(void *data, int argc, char **argv, char **azColName) {
     Database* db = static_cast<Database*>(data);
     if (argc > 0 && argv[0] != nullptr) {
-        db->result = argv[0]; // Assign the value of the first column to the result string
+        db->result = argv[0];
     } else {
         cout << "null" << endl;
     }
@@ -89,10 +89,10 @@ string Database::query(const string& table, const string& output_column, const s
 int Database::id_query(const string& table, const string& id_column) {
     result.clear();
     string sql = "SELECT MAX(" + id_column + ") FROM " + table + ";";
-
     char *errMsg = nullptr;
 
     int rc = sqlite3_exec(get_curr(), sql.c_str(), cb_row, this, &errMsg);
+    cout << "result: " << result << endl;
 
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << errMsg << std::endl;
@@ -118,7 +118,7 @@ void Database::close() {
     }
 }
 
-bool Database::add_row(sqlite3* db, const string& table, const vector<string> &columns, const vector<string>& values) {
+bool Database::add_row(const string& table, const vector<string> &columns, const vector<string>& values) {
 
     string sql = "INSERT INTO " + table + " (";
     for (int i = 0; i < columns.size(); i++) {
@@ -139,7 +139,7 @@ bool Database::add_row(sqlite3* db, const string& table, const vector<string> &c
     cout << sql << endl;
 
     char *errMsg = nullptr;
-    int rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &errMsg);
+    int rc = sqlite3_exec(get_curr(), sql.c_str(), nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << errMsg << std::endl;
         sqlite3_free(errMsg);
