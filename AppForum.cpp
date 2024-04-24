@@ -68,7 +68,7 @@ void AppForum::create_post_view(const ForumPost& post)
     // Add the event box to the text view
     Gtk::TextIter iter = forum_text_view.get_buffer()->end();
     Glib::RefPtr<Gtk::TextChildAnchor> anchor = forum_text_view.get_buffer()->create_child_anchor(iter);
-    forum_text_view.add_child_at_anchor(anchor, event_box);
+    forum_text_view.add_child_at_anchor(*event_box, anchor);
 
     forum_text_view.get_buffer()->insert_at_cursor("\n");
 }
