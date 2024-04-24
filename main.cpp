@@ -15,12 +15,17 @@ Napspot ns;
 int main(int argc, char *argv[]) {
 
 
-
-
+    vector<string> empty {};
     vector<string> attribute {"sunny", "noisy"};
     vector<string> attribute2 {"dark", "quiet"};
-    ns.add_napspot("quad", attribute);
+    //ns.add_napspot("quad", );
 
+    ns.add_napspot("quad", attribute);
+    ns.add_napspot("quad1", attribute);
+    ns.add_napspot("quad2", attribute);
+    ns.add_napspot("quad3", attribute);
+
+   ns.remove_napspot("quad");
 
     //test code to run usrnme pswd GUI
     /*
@@ -28,6 +33,8 @@ int main(int argc, char *argv[]) {
     MyWindow window;
     return app->run(window);
     */
+
+
 }
 
 

@@ -46,6 +46,16 @@ bool Napspot::remove_napspot(const string& name) {
 
     //remove the row
     db->remove_row("napspots", napspot_id);
+    remove_attribute(napspot_id);
+    return true;
+}
+
+bool Napspot::remove_attribute(const string& napspot_id) {
+
+    while (!db->query("attributes", "attribute_id", "napspot_id", napspot_id).empty()) {
+        string output = db->query("attributes", "attribute_id", "napspot_id", napspot_id);
+        db->remove_row("attributes", output);
+    }
     return true;
 }
 
@@ -54,3 +64,4 @@ vector<string> Napspot::get_attribute(const string& name) {
     return null;
 }
  */
+
