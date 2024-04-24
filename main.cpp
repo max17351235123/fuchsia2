@@ -14,14 +14,13 @@ UserCredentials uc;
 Napspot ns;
 int main(int argc, char *argv[]) {
 
-    ns.remove_napspot("cave");
 
 
-    /*
+
     vector<string> attribute {"sunny", "noisy"};
     vector<string> attribute2 {"dark", "quiet"};
-    ns.add_napspot("cave", attribute2);
-    */
+    ns.add_napspot("quad", attribute);
+
 
     //test code to run usrnme pswd GUI
     /*

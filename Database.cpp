@@ -137,17 +137,13 @@ bool Database::add_row(const string& table, const vector<string> &columns, const
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << errMsg << std::endl;
         sqlite3_free(errMsg);
+        return false;
     } else {
         string csvfile = dblocation + "/csv/" + table + ".csv";
         log_to_csv(table, csvfile);
     }
     return true;
 }
-
-
-
-
-
 
 bool Database::log_to_csv(const string& table, const string& filename) const {
     ofstream csv_file(filename);
@@ -165,13 +161,6 @@ bool Database::log_to_csv(const string& table, const string& filename) const {
     }
 
     int num_columns = sqlite3_column_count(stmt);
-    for (int i = 0; i < num_columns; ++i) {
-        csv_file << sqlite3_column_name(stmt, i);
-        if (i < num_columns - 1) {
-            csv_file << ",";
-        }
-    }
-    csv_file << std::endl;
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         for (int i = 0; i < num_columns; ++i) {

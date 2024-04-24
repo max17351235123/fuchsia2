@@ -18,7 +18,9 @@ bool Napspot::add_napspot(const string& name, const vector<string>& attributes) 
 
     //add the row
     vector<string> input = {to_string(napspot_id), name};
-    db->add_row("napspots", napspot_column, input);
+    if (!db->add_row("napspots", napspot_column, input)) {
+        return false;
+    }
 
     //add the attributes
     for (const auto & attribute : attributes) {
@@ -47,6 +49,8 @@ bool Napspot::remove_napspot(const string& name) {
     return true;
 }
 
+/*
 vector<string> Napspot::get_attribute(const string& name) {
     return null;
 }
+ */

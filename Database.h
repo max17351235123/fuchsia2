@@ -29,7 +29,10 @@ public:
     bool add_row(const string& table, const vector<string> &columns, const vector<string>& values);
     bool log_to_csv(const string& table, const string& filename) const;
     bool remove_row(const string& table, const string &id) ;
+    //vector<string> Napspot::get_attribute(const string& name) {
+
     string get_location();
+
     string get_name();
 
 private:
