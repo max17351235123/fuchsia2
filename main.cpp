@@ -20,15 +20,20 @@ int main(int argc, char *argv[]) {
     vector<string> attribute2 {"dark", "quiet"};
     //ns.add_napspot("quad", );
 
-    //ns.add_napspot("quad", attribute);
+    ns.clear_napspots();
+    ns.add_napspot("quad", attribute);
     //ns.add_napspot("quad1", attribute);
     //ns.add_napspot("quad2", attribute);
     //ns.add_napspot("quad3", attribute);
 
-   //ns.remove_napspot("quad");
 
-   db.clear_table("attributes");
-   db.clear_table("napspots");
+    vector<string> output = db.query_all("attributes", "attribute", "napspot_id", "1");
+
+    for (int i = 0; i < output.size(); i++) {
+        cout << "attribute " << i << " = " << output[i] << endl;
+    }
+
+
 
     //test code to run usrnme pswd GUI
     /*
