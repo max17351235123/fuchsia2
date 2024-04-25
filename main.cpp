@@ -20,12 +20,15 @@ int main(int argc, char *argv[]) {
     vector<string> attribute2 {"dark", "quiet"};
     //ns.add_napspot("quad", );
 
-    ns.add_napspot("quad", attribute);
-    ns.add_napspot("quad1", attribute);
-    ns.add_napspot("quad2", attribute);
-    ns.add_napspot("quad3", attribute);
+    //ns.add_napspot("quad", attribute);
+    //ns.add_napspot("quad1", attribute);
+    //ns.add_napspot("quad2", attribute);
+    //ns.add_napspot("quad3", attribute);
 
-   ns.remove_napspot("quad");
+   //ns.remove_napspot("quad");
+
+   db.clear_table("attributes");
+   db.clear_table("napspots");
 
     //test code to run usrnme pswd GUI
     /*

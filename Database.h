@@ -29,7 +29,9 @@ public:
     bool add_row(const string& table, const vector<string> &columns, const vector<string>& values);
     bool log_to_csv(const string& table, const string& filename) const;
     bool remove_row(const string& table, const string &id) ;
-    //vector<string> Napspot::get_attribute(const string& name) {
+    bool clear_table(const string& table);
+
+        //vector<string> Napspot::get_attribute(const string& name) {
 
     string get_location();
 

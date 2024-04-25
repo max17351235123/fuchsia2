@@ -23,6 +23,7 @@ public:
     bool add_attribute(const string& napspot_id, const string& attribute);
     bool remove_napspot(const string &name);
     bool remove_attribute(const string& napspot_id);
+    bool clear_napspots();
 
 private:
     Database *db;

@@ -50,12 +50,23 @@ bool Napspot::remove_napspot(const string& name) {
     return true;
 }
 
+//remove every attribute associated with given napspot id
 bool Napspot::remove_attribute(const string& napspot_id) {
 
+
+    //loop through the attributes that have the napspot id
     while (!db->query("attributes", "attribute_id", "napspot_id", napspot_id).empty()) {
         string output = db->query("attributes", "attribute_id", "napspot_id", napspot_id);
+
+        //remove it
         db->remove_row("attributes", output);
     }
+    return true;
+}
+
+bool Napspot::clear_napspots() {
+    db->clear_table("napspots");
+    db->clear_table("attributes");
     return true;
 }
 

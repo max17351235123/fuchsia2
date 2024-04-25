@@ -195,3 +195,17 @@ bool Database::remove_row(const string &table, const string &id) {
     return true;
 }
 
+bool Database::clear_table(const string& table) {
+    string sql = "DELETE FROM " + table;
+    char *errMsg = nullptr;
+    int rc = sqlite3_exec(get_curr(), sql.c_str(), nullptr, nullptr, &errMsg);
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+        return false;
+    } else {
+        string csvfile = dblocation + "/csv/" + table + ".csv";
+        log_to_csv(table, csvfile);
+        return true;
+    }
+}
