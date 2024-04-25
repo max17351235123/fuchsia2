@@ -240,3 +240,4 @@ vector<string> Database::query_all(const string& table, const string& output_col
         }
     }
 }
+

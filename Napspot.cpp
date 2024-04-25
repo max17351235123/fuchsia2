@@ -40,6 +40,24 @@ bool Napspot::add_attribute(const string& napspot_id, const string& attribute) {
     return true;
 }
 
+bool Napspot::add_review(const string& napspot_id, const string& txt, const int rating) {
+    int review_id = db->id_query("reviews", "review_id") + 1;
+
+    //"review_id", "user_id", "napspot_id", "txt", "rating"};
+    vector<string> input = {to_string(review_id), to_string(user_id), napspot_id, txt, to_string(rating)};
+    db->add_row("reviews", review_column, input);
+    return true;
+}
+
+bool Napspot::add_reservation(const string& napspot_id, const string& time) {
+    int reservation_id = db->id_query("reservations", "reservation_id") + 1;
+
+    //{"reservation_id", "user_id", "napspot_id", "time"};
+    vector<string> input = {to_string(reservation_id), to_string(user_id), napspot_id, time};
+    db->add_row("reservatons", reservation_column, input);
+    return true;
+}
+
 bool Napspot::remove_napspot(const string& name) {
     //find the id based on name
     string napspot_id = db->query("napspots", "napspot_id", "name", name);
@@ -52,7 +70,6 @@ bool Napspot::remove_napspot(const string& name) {
 
 //remove every attribute associated with given napspot id
 bool Napspot::remove_attribute(const string& napspot_id) {
-
 
     //loop through the attributes that have the napspot id
     while (!db->query("attributes", "attribute_id", "napspot_id", napspot_id).empty()) {
@@ -70,9 +87,9 @@ bool Napspot::clear_napspots() {
     return true;
 }
 
-/*
-vector<string> Napspot::get_attribute(const string& name) {
-    return null;
+
+vector<string> Napspot::get_attributes(const string& napspot_id) {
+    return db->query_all("attributes","attribute", "napspot_id",napspot_id);
 }
- */
+
 

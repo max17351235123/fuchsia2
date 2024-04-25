@@ -23,6 +23,16 @@ CREATE TABLE reviews (
       FOREIGN KEY (napspot_id) REFERENCES napspots(napspot_id)
 );
 
+CREATE TABLE reservations (
+    reservation_id INT NOT NULL UNIQUE,
+    user_id TEXT NOT NULL,
+    napspot_id TEXT NOT NULL,
+    time TEXT NOT NULL,
+    PRIMARY KEY (reservation_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (napspot_id) REFERENCES napspots(napspot_id)
+);
+
 CREATE TABLE users (
       user_id    INT NOT NULL UNIQUE,
       username   TEXT NOT NULL,
