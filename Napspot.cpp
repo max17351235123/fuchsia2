@@ -77,7 +77,7 @@ bool Napspot::remove_napspot(const string& name) {
     return true;
 }
 
-//remove every attribute associated with given napspot id
+//remove every review/attribute/reservation associated with given napspot id
 bool Napspot::remove_dependants(const string& napspot_id, const string& table) {
 
     string table2 = table;
@@ -107,11 +107,14 @@ vector<string> Napspot::get_attributes(const string& napspot_id) {
 
 vector<string> Napspot::filter_by_attribute(const string& attribute) {
 
+    //find all the napspots with X attribute
     vector<string> output = db->query_all("attributes", "napspot_id", "attribute", attribute);
-    for (auto & i : output) {
-        i = db->query("napspots", "name", "napspot_id", i);
+    vector<string> output2(output.size());
+    for (int i = 0; i < output.size(); i++) {
+        //change the ID to name (depending on future uses can be commented out)
+       output2[i] = db->query("napspots", "name", "napspot_id", output[i]);
     }
-    return output;
+    return output2;
 }
 
 /*
