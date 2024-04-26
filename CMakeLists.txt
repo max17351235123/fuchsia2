@@ -4,9 +4,10 @@ project(fuchsia2)
 set(CMAKE_CXX_STANDARD 14)
 
 
-#a
+
+
 # setting up the pkgconfig tool obtain the gtkmm4 locations
-find_package(PkgConfig)
+find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTKMM gtkmm-3.0)
 include_directories(${GTKMM_INCLUDE_DIRS})
 link_directories(${GTKMM_LIBRARY_DIRS})
@@ -14,6 +15,7 @@ link_directories(${GTKMM_LIBRARY_DIRS})
 include_directories(googletest googletest/include googletest/include/gtest)
 add_executable(unittests googletest/src/gtest-all.cc
         tests/unittests.cpp)
+
 
 add_executable(fuchsia2
         main.cpp
@@ -25,8 +27,17 @@ add_executable(fuchsia2
 )
 
 
+
+
+
 include_directories(/usr/include)
 
 link_directories(/usr/lib)
 target_link_libraries(fuchsia2 sqlite3)
 target_link_libraries(fuchsia2 ${GTKMM_LIBRARIES})
+
+
+
+
+
+

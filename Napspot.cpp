@@ -47,6 +47,6 @@ bool Napspot::remove_napspot(const string& name) {
     return true;
 }
 
-vector<string> Napspot::get_attribute(const string& name) {
-    return null;
-}
+//vector<string> Napspot::get_attribute(const string& name) {
+  //  return null;
+//}

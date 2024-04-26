@@ -165,13 +165,14 @@ bool Database::log_to_csv(const string& table, const string& filename) const {
     }
 
     int num_columns = sqlite3_column_count(stmt);
-    for (int i = 0; i < num_columns; ++i) {
+    /*for (int i = 0; i < num_columns; ++i) {
         csv_file << sqlite3_column_name(stmt, i);
         if (i < num_columns - 1) {
             csv_file << ",";
         }
     }
     csv_file << std::endl;
+    */
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         for (int i = 0; i < num_columns; ++i) {
