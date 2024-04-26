@@ -17,6 +17,7 @@ public:
     sqlite3 *curr_db = nullptr;
     static Database* database;
     string result;
+    vector<string> result_vector;
     Database(const string& dbname, const string& dblocation);
     ~Database();
     void open();
@@ -28,8 +29,15 @@ public:
     int id_query(const string& table, const string& id_column);
     bool add_row(const string& table, const vector<string> &columns, const vector<string>& values);
     bool log_to_csv(const string& table, const string& filename) const;
-    bool remove_row(const string& table, const string &id) ;
+    bool remove_row(const string& table, const string &id);
+    bool clear_table(const string& table);
+    vector<string> query_all(const string& table, const string& output_column, const string& search_column, const string& search);
+
+
+        //vector<string> Napspot::get_attribute(const string& name) {
+
     string get_location();
+
     string get_name();
 
 private:
