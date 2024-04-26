@@ -34,7 +34,6 @@ bool Napspot::add_attribute(const string& napspot_id, const string& attribute) {
 
     //increment the id
     int attribute_id = db->id_query("attributes", "attribute_id") + 1;
-    cout << attribute_id << endl;
     vector<string> input = {to_string(attribute_id), napspot_id, attribute};
 
     //add to attribute table
@@ -106,4 +105,17 @@ vector<string> Napspot::get_attributes(const string& napspot_id) {
     return db->query_all("attributes","attribute", "napspot_id",napspot_id);
 }
 
+vector<string> Napspot::filter_by_attribute(const string& attribute) {
 
+    vector<string> output = db->query_all("attributes", "napspot_id", "attribute", attribute);
+    for (auto & i : output) {
+        i = db->query("napspots", "name", "napspot_id", i);
+    }
+    return output;
+}
+
+/*
+ * click filter by attribute
+ * return x napspot_ids that have that attribute
+ * display those x napspots
+ */

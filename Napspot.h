@@ -29,9 +29,10 @@ public:
     vector<string> get_attributes(const string& napspot_id);
     bool add_review(const string& napspot_id, const string& txt, int rating);
     bool add_reservation(const string& napspot_id, const string& time);
-
+    vector<string> filter_by_attribute(const string& attribute);
 
 private:
+
     Database *db;
 
 };

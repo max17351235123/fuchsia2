@@ -268,6 +268,7 @@ int Database::double_query(const string& table, const string& con1_column, const
 
 
 
+
 //string sql = "SELECT COUNT(*) AS reservation_count FROM reservations WHERE user_id = " + user_id +
 //                 " AND DATE(time, 'unixepoch') = DATE(" + res_time + ", 'start of day')";
 

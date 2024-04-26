@@ -35,10 +35,11 @@ CREATE TABLE reservations (
 );
 
 CREATE TABLE users (
-      user_id    INT NOT NULL UNIQUE,
-      username   TEXT NOT NULL,
-      password   TEXT NOT NULL,
-      PRIMARY KEY (user_id)
+    user_id    INT NOT NULL UNIQUE,
+    username   TEXT NOT NULL,
+    password   TEXT NOT NULL,
+    admin  INTEGER NOT NULL,
+    PRIMARY KEY (user_id)
 );
 
 

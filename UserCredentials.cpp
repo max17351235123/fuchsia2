@@ -21,8 +21,9 @@ void UserCredentials::addCredential(const std::string& username, const std::stri
     int user_id = db->id_query("users", "user_id") + 1;
 
     //add a new account
-    vector<string> usertable = {"user_id", "username", "password"};
-    vector<string> newAccount = {to_string(user_id), username, password};
+    vector<string> usertable = {"user_id", "username", "password", "admin"};
+
+    vector<string> newAccount = {to_string(user_id), username, password, "0"};
 
     int auth = authenticateUser(username, password);
     if (auth != 2) {
