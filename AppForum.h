@@ -1,6 +1,7 @@
 //
 // Created by laure on 2024/4/15.
 //
+// AppForum.h
 #ifndef FUCHSIA2_APPFORUM_H
 #define FUCHSIA2_APPFORUM_H
 
@@ -11,6 +12,7 @@
 struct ForumPost {
     std::string username;
     std::string message;
+    std::vector<std::string> comments;
 };
 
 class AppForum : public Gtk::Box
@@ -32,6 +34,7 @@ protected:
     std::vector<ForumPost> forum_posts;
 
     void on_forum_post_button_clicked();
+    void on_comment_button_clicked(ForumPost& post, Gtk::Entry& comment_entry);
     void create_post_view(const ForumPost& post);
 };
 
