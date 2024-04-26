@@ -55,8 +55,6 @@ public:
      * @param name name of napspot being removed
      * @return true if succesful, false if not
      */
-    bool remove_napspot(const string &name);
-
     /**
      * removes entries from the table that is associated with the given napspot
      *
@@ -107,7 +105,7 @@ public:
      * @return a vector of all the napspots with that attribute
      */
     vector<string> filter_by_attribute(const string& attribute);
-
+    bool remove_napspot(const string& name);
 private:
 
     Database *db;
