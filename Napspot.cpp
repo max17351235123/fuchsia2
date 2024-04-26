@@ -51,11 +51,17 @@ bool Napspot::add_review(const string& napspot_id, const string& txt, const int 
     return true;
 }
 
+//need to change to only focus on day instead of exact time
 bool Napspot::add_reservation(const string& napspot_id, const string& time) {
     int reservation_id = db->id_query("reservations", "reservation_id") + 1;
 
     //{"reservation_id", "user_id", "napspot_id", "time"};
     vector<string> input = {to_string(reservation_id), user_id, napspot_id, time};
+    if (db->double_query("reservations", "user_id", user_id, "start_time", time) > 0) {
+        cerr << "can only make 1 reservation per day" << endl;
+        return false;
+    }
+
     db->add_row("reservations", reservation_column, input);
     return true;
 }
@@ -95,7 +101,6 @@ bool Napspot::clear_napspots() {
     db->clear_table("reviews");
     return true;
 }
-
 
 vector<string> Napspot::get_attributes(const string& napspot_id) {
     return db->query_all("attributes","attribute", "napspot_id",napspot_id);

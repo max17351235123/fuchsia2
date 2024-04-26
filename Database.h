@@ -32,6 +32,10 @@ public:
     bool remove_row(const string& table, const string &id);
     bool clear_table(const string& table);
     vector<string> query_all(const string& table, const string& output_column, const string& search_column, const string& search);
+    int double_query(const string& table, const string& con1_column, const string& con1_val, const string& con2_column, const string& con2_val);
+
+    //string sql = "SELECT COUNT(*) AS reservation_count FROM reservations WHERE user_id = " + user_id +
+    //                 " AND DATE(time, 'unixepoch') = DATE(" + res_time + ", 'start of day')";
 
 
         //vector<string> Napspot::get_attribute(const string& name) {

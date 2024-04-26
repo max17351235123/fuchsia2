@@ -16,7 +16,7 @@ public:
     vector<string> napspot_column = {"napspot_id", "name"};
     vector<string> attribute_column = {"attribute_id, ""napspot_id", "attribute"};
     vector<string> review_column = {"review_id", "user_id", "napspot_id", "txt", "rating"};
-    vector<string> reservation_column = {"reservation_id", "user_id", "napspot_id", "time"};
+    vector<string> reservation_column = {"reservation_id", "user_id", "napspot_id", "start_time"};
     string user_id;
 
     Napspot(const string& user_id);

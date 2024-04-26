@@ -30,11 +30,10 @@ int main(int argc, char *argv[]) {
     //ns.add_napspot("quad2", attribute);
     //ns.add_napspot("quad3", attribute);
 
-    vector<string> output = db.query_all("attributes", "attribute", "napspot_id", "1");
 
-    for (int i = 0; i < output.size(); i++) {
-        cout << "attribute " << i << " = " << output[i] << endl;
-    }
+    //rmb to enclose time in single quotes
+    cout << db.double_query("reservations", "user_id", "1", "start_time", "5:00") << " instance" << endl;
+
 
 
 

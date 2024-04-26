@@ -241,3 +241,34 @@ vector<string> Database::query_all(const string& table, const string& output_col
     }
 }
 
+int Database::double_query(const string& table, const string& con1_column, const string& con1_val, const string& con2_column, const string& con2_val){
+    result.clear();
+    string sql = "SELECT COUNT(*) AS result "
+                 "FROM " + table + " WHERE " +
+                 con1_column + " = " + con1_val
+                 + " AND " + con2_column + " = " + "'" + con2_val + "'" + ";";
+
+    char *errMsg = nullptr;
+    int rc = sqlite3_exec(get_curr(), sql.c_str(), cb_one, this, &errMsg);
+
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+        return 0;
+    } else {
+        if (result.empty()) {
+            cerr << "search not found" << endl;
+            return 0;
+        }
+        else {
+            return stoi(result);
+        }
+    }
+}
+
+
+
+//string sql = "SELECT COUNT(*) AS reservation_count FROM reservations WHERE user_id = " + user_id +
+//                 " AND DATE(time, 'unixepoch') = DATE(" + res_time + ", 'start of day')";
+
+
