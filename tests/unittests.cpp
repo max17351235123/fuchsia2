@@ -28,6 +28,7 @@ protected:
 // Objects declared here can be used by all tests in the test case for Foo.
     std::string s1 = "test right";
     std::string s2 = "test wrong";
+
 };
 
 TEST(general, TESTSIMPLE) {
