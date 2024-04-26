@@ -1,6 +1,6 @@
 CREATE TABLE napspots (
       napspot_id     INT NOT NULL UNIQUE,
-      name            TEXT NOT NULL UNIQUE,
+      name           TEXT NOT NULL UNIQUE,
       PRIMARY KEY (napspot_id)
 );
 
@@ -9,7 +9,7 @@ CREATE TABLE attributes (
     napspot_id INT NOT NULL,
     attribute TEXT NOT NULL,
     PRIMARY KEY (attribute_id),
-    FOREIGN KEY (napspot_id) REFERENCES napspots(napspot_id) ON DELETE CASCADE
+    FOREIGN KEY (napspot_id) REFERENCES napspots(napspot_id)
 );
 
 
@@ -18,6 +18,7 @@ CREATE TABLE reviews (
       user_id     TEXT NOT NULL,
       napspot_id TEXT NOT NULL,
       txt        TEXT NOT NULL,
+      rating     INT NOT NULL,
       PRIMARY KEY (review_id),
       FOREIGN KEY (user_id) REFERENCES users(user_id),
       FOREIGN KEY (napspot_id) REFERENCES napspots(napspot_id)
