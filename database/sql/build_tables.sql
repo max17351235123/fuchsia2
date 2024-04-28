@@ -1,7 +1,13 @@
 CREATE TABLE napspots (
-      napspot_id     INT NOT NULL UNIQUE,
-      name           TEXT NOT NULL UNIQUE,
-      PRIMARY KEY (napspot_id)
+    napspot_id     INT NOT NULL UNIQUE,
+    name           TEXT NOT NULL UNIQUE,
+    PRIMARY KEY (napspot_id)
+);
+
+CREATE TABLE filtered_napspots (
+    napspot_id     INT NOT NULL UNIQUE,
+    name           TEXT NOT NULL UNIQUE,
+    PRIMARY KEY (napspot_id)
 );
 
 CREATE TABLE attributes (

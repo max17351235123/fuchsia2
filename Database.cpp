@@ -70,14 +70,14 @@ string Database::query(const string& table, const string& output_column, const s
     result.clear();
     string sql = "SELECT " + output_column + " FROM " + table + " WHERE " + search_column + " = '" + search + "';";
 
-    char *errMsg = nullptr;
+    ErrMsg = nullptr;
 
 
-    int rc = sqlite3_exec(get_curr(), sql.c_str(), cb_one, this, &errMsg);
+    int rc = sqlite3_exec(get_curr(), sql.c_str(), cb_one, this, &ErrMsg);
     //int rc = sqlite3_exec(get_curr(), sql.c_str(), nullptr, nullptr, &errMsg);
     if (rc != SQLITE_OK) {
-        std::cerr << "SQL error: " << errMsg << std::endl;
-        sqlite3_free(errMsg);
+        std::cerr << "SQL error: " << ErrMsg << std::endl;
+        sqlite3_free(ErrMsg);
         return "";
     } else {
         if (result.empty()) {
@@ -240,6 +240,45 @@ vector<string> Database::query_all(const string& table, const string& output_col
         }
     }
 }
+
+
+vector<string> Database::get_data(const string& table, const string& id) {
+    string table2 = table;
+    string idname = table2.erase(table.size() - 1) + "_id";
+
+    result_vector.clear();
+    vector<string> output;
+    std::string sql = "SELECT * FROM " + table + " WHERE " + idname + " = " + id;
+    cout << sql << endl;
+    char *errMsg = nullptr;
+
+    int rc = sqlite3_exec(get_curr(), sql.c_str(), cb_all, this, &errMsg);
+    if (result_vector.empty()) {
+        cerr << "search not found > query_all()" << endl;
+        return {};
+    }
+    else {
+        return result_vector;
+    }
+}
+
+bool Database::subtable(const string& table, const string& subtable, const vector<string>& table_columns, const vector<string>& ids) {
+   for (const auto & id : ids) {
+       vector<string> row_data = get_data(table,id);
+       add_row(subtable, table_columns,row_data);
+   }
+}
+
+/*
+ * 1. make a vector of all the napspot id's that fufill the requirement
+ * 2. add all of those napspot id's and the rest of their information to a subtable
+ *
+ *
+ *
+ */
+
+
+
 
 int Database::double_query(const string& table, const string& con1_column, const string& con1_val, const string& con2_column, const string& con2_val){
     result.clear();

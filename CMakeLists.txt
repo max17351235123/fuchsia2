@@ -3,6 +3,7 @@ project(fuchsia2)
 
 set(CMAKE_CXX_STANDARD 14)
 
+# Add include directories for unittests target
 
 #a
 # setting up the pkgconfig tool obtain the gtkmm4 locations
@@ -11,9 +12,6 @@ pkg_check_modules(GTKMM gtkmm-3.0)
 include_directories(${GTKMM_INCLUDE_DIRS})
 link_directories(${GTKMM_LIBRARY_DIRS})
 
-include_directories(googletest googletest/include googletest/include/gtest)
-add_executable(unittests googletest/src/gtest-all.cc
-        tests/unittests.cpp)
 
 add_executable(fuchsia2
         main.cpp

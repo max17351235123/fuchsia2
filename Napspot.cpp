@@ -106,16 +106,16 @@ vector<string> Napspot::get_attributes(const string& napspot_id) {
 }
 
 vector<string> Napspot::filter_by_attribute(const string& attribute) {
+    db->clear_table("filtered_napspots");
 
     //find all the napspots with X attribute
     vector<string> output = db->query_all("attributes", "napspot_id", "attribute", attribute);
-    vector<string> output2(output.size());
-    for (int i = 0; i < output.size(); i++) {
-        //change the ID to name (depending on future uses can be commented out)
-       output2[i] = db->query("napspots", "name", "napspot_id", output[i]);
-    }
-    return output2;
+    db->subtable("napspots","filtered_napspots",napspot_column,output);
+    return output;
 }
+
+
+
 
 /*
  * click filter by attribute
