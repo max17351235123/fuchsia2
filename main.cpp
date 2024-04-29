@@ -22,6 +22,7 @@ int main(int argc, char *argv[]) {
             Gtk::Application::create(argc, argv, "edu.cs205.example03");
 
     Gtk::Window window;
+
     window.set_title("App Forum");
     window.set_default_size(600, 400);
 
