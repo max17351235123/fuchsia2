@@ -203,18 +203,9 @@ public:
         auto* dbWindow = new DatabaseWindow(dbPath, tableName);
         dbWindow->show();
     }
-
-
-
-
-
-
-
 };
 
-
 int main(int argc, char *argv[]) {
-
 
     //vector<string> empty {};
     vector<string> attribute {"warm"};
@@ -224,9 +215,6 @@ int main(int argc, char *argv[]) {
     vector<string> attribute5 {"bright"};
     vector<string> attribute6 {"dark"};
     vector<string> attribute7 {"dark", "quiet"};
-
-
-
 
 
     //vector<string> attribute2 {"dark", "quiet"};
@@ -240,10 +228,6 @@ int main(int argc, char *argv[]) {
     ns.add_napspot("quad4", attribute5);
     ns.add_napspot("qua5", attribute6);
     ns.add_napspot("lezhis room", attribute7);
-
-
-
-
 
 
 

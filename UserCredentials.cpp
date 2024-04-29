@@ -3,6 +3,7 @@
 //
 
 #include "UserCredentials.h"
+#include "Napspot.h"
 #include <iostream>
 #include <vector>
 #include <sqlite3.h>
@@ -41,7 +42,9 @@ void UserCredentials::addCredential(const std::string& username, const std::stri
 int UserCredentials::authenticateUser(const string& username, const string& password) {
     string output = db->query("users", "password", "username", username);
     if(output == password){
+        ns = new Napspot(db->query("users", "user_id","username",username));
         return 0;
+
     }
     if (output.empty()) {
         cerr << "There is no account associated with that username" << endl;

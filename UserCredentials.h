@@ -7,6 +7,7 @@
 #include <string>
 #include <unordered_map>
 #include "Database.h"
+#include "Napspot.h"
 
 class UserCredentials {
 private:
@@ -17,6 +18,7 @@ public:
     ~UserCredentials();
     void addCredential(const std::string& username, const std::string& password);
     int authenticateUser(const std::string& username, const std::string& password);
+    Napspot* ns;
 };
 
 

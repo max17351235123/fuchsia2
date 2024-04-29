@@ -13,6 +13,7 @@ class Napspot {
 
 public:
 
+
     vector<string> napspot_column = {"napspot_id", "name"};
     vector<string> attribute_column = {"attribute_id, ""napspot_id", "attribute"};
     vector<string> review_column = {"review_id", "user_id", "napspot_id", "txt", "rating"};
@@ -107,7 +108,6 @@ public:
     vector<string> filter_by_attribute(const string& attribute);
     bool remove_napspot(const string& name);
 private:
-
     Database *db;
 
 };
