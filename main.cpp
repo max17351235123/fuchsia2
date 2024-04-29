@@ -122,11 +122,13 @@ private:
             Gtk::TreeModel::Row row = *iter;
             int id = row[m_columns.m_col_id];
             if (!ns.add_reservation(to_string(id), "3:00")) {
-                Gtk::MessageDialog dialog(*this, "There is no account associated with that username", false,
+                Gtk::MessageDialog dialog(*this, "There is already a reservation at this time!", false,
                                           Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
                 dialog.run();
             } else {
-                std::cout << "RESERVATION MADE FOR 3:00 TODAY" << std::endl;
+                Gtk::MessageDialog dialog(*this, "Reservation made. Hope you're feeling eepy!", false,
+                                          Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
+                dialog.run();
                 Gtk::CellRendererToggle* toggleRenderer = dynamic_cast<Gtk::CellRendererToggle*>(renderer);
                 if (toggleRenderer) {
                     toggleRenderer->set_active(false);
