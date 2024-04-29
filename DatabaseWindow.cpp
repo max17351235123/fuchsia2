@@ -103,19 +103,7 @@ void DatabaseWindow::onButtonToggled(const Gtk::TreeModel::iterator& iter, Gtk::
         int id = row[m_columns.m_col_id];
 
 
-
-
-
-        if (!ns.add_reservation(to_string(id), "3:00")) {
-            Gtk::MessageDialog dialog(*this, "There is already a reservation at this time!", false,
-                                      Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
-            dialog.run();
-        } else {
-            Gtk::MessageDialog dialog(*this, "Reservation made. Hope you're feeling eepy!", false,
-                                      Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
-            dialog.run();
-
-            auto *rWindow = new ReservationWindow();
+            auto *rWindow = new ReservationWindow(id);
             rWindow->signal_hide().connect(
                     sigc::bind(sigc::mem_fun(*this, &DatabaseWindow::on_reservation_window_hide), rWindow));
             rWindow->show();
@@ -126,12 +114,8 @@ void DatabaseWindow::onButtonToggled(const Gtk::TreeModel::iterator& iter, Gtk::
             }
         }
 
-        Gtk::CellRendererToggle *toggleRenderer = dynamic_cast<Gtk::CellRendererToggle *>(renderer);
-        if (toggleRenderer) {
-            toggleRenderer->set_active(false);
-        }
     }
-}
+
 
 DatabaseWindow::ModelColumns::ModelColumns() {
     add(m_col_id);

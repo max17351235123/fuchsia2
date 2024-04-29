@@ -97,7 +97,7 @@ public:
      * @param start_time the start time of the reservation
      * @return true if successful, false if not
      */
-    bool add_reservation(const string& napspot_id, const string& start_time);
+    void add_reservation(const string& napspot_id, const string& start_time);
 
     /**
      * returns all napspots that have the given attribute

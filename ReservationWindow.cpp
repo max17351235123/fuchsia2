@@ -1,9 +1,11 @@
 #include "ReservationWindow.h"
+#include "Napspot.h"
 #include <iostream>
 
+extern Napspot ns;
+extern Database db;
 
-
-ReservationWindow::ReservationWindow()
+ReservationWindow::ReservationWindow(const int& id)
         : Gtk::Window(),
           m_vbox(Gtk::ORIENTATION_VERTICAL, 10),
           combo_month(Gtk::manage(new Gtk::ComboBoxText())),
@@ -11,8 +13,10 @@ ReservationWindow::ReservationWindow()
           combo_day_first(Gtk::manage(new Gtk::ComboBoxText())),
           combo_day_second(Gtk::manage(new Gtk::ComboBoxText())),
           combo_time(Gtk::manage(new Gtk::ComboBoxText())),
-          combo_am_pm(Gtk::manage(new Gtk::ComboBoxText()))
+          combo_am_pm(Gtk::manage(new Gtk::ComboBoxText())),
+          id(id)
 {
+    this->id = id;
     set_title("Reservation Window");
     set_default_size(400, 300);
 
@@ -116,6 +120,17 @@ void ReservationWindow::on_button_reserve_clicked() {
         std::cout << "Formatted Date-Time: " << m_formatted_datetime << std::endl;
     } else {
         std::cerr << "Error: One or more combo box pointers are null." << std::endl;
+    }
+    if (db.query("reservations", "napspot_id", "start_time", m_formatted_datetime)==to_string(id)) {
+        Gtk::MessageDialog dialog(*this, "There is already a reservation at this time!", false,
+                                  Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
+        dialog.run();
+    } else {
+        ns.add_reservation(to_string(id),m_formatted_datetime);
+        Gtk::MessageDialog dialog(*this, "Reservation made. Hope you're feeling eepy!", false,
+                                  Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
+
+        dialog.run();
     }
 }
 

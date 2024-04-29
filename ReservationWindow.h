@@ -6,7 +6,7 @@
 
 class ReservationWindow : public Gtk::Window {
 public:
-    ReservationWindow();
+    ReservationWindow(const int& id);
     Glib::ustring get_formatted_datetime() const;
 
 private:
@@ -18,6 +18,7 @@ private:
     Gtk::ComboBoxText* combo_day_second;
     Gtk::ComboBoxText* combo_time;
     Gtk::ComboBoxText* combo_am_pm;
+    int id;
 
     Glib::ustring m_formatted_datetime;
     Gtk::Box m_vbox;
