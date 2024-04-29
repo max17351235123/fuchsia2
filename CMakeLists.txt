@@ -20,6 +20,11 @@ add_executable(fuchsia2
         MyWindow.cpp
         UserCredentials.cpp
         Napspot.cpp
+        ButtonWindow.cpp
+        ButtonWindow.h
+        DatabaseWindow.cpp
+        DatabaseWindow.h
+        DatabaseWindow.h
 )
 
 
