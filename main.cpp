@@ -10,6 +10,8 @@
 #include <gtkmm/grid.h>
 #include <gtkmm/treeview.h>
 #include <gtkmm/liststore.h>
+#include <sigc++/connection.h> // Include this header for managing signal connections
+
 
 
 using namespace std;
@@ -100,30 +102,36 @@ private:
         sqlite3_close(db);
     }
 
+    sigc::connection toggleConnection;
     void onSetCellData(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter) {
         Gtk::CellRendererToggle* toggleRenderer = dynamic_cast<Gtk::CellRendererToggle*>(renderer);
         if (toggleRenderer) {
+            // Disconnect existing signal connection
+            toggleConnection.disconnect();
+
             toggleRenderer->set_active(false);
-            toggleRenderer->signal_toggled().connect([this, iter](const Glib::ustring& path) {
-                onButtonToggled(iter);
+            // Connect the signal and store the connection object
+            toggleConnection = toggleRenderer->signal_toggled().connect([this, iter, renderer](const Glib::ustring& path) {
+                onButtonToggled(iter, renderer); // Pass renderer as a parameter
             });
         }
     }
 
-    void onButtonToggled(const Gtk::TreeModel::iterator& iter) {
+    void onButtonToggled(const Gtk::TreeModel::iterator& iter, Gtk::CellRenderer* renderer) {
         if (iter) {
             Gtk::TreeModel::Row row = *iter;
             int id = row[m_columns.m_col_id];
-            // Add functionality for reservation button here
-            if(!ns.add_reservation(to_string(id),"3:00")) {
-            Gtk::MessageDialog dialog(*this, "There is no account associated with that username", false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
-            dialog.run();
+            if (!ns.add_reservation(to_string(id), "3:00")) {
+                Gtk::MessageDialog dialog(*this, "There is no account associated with that username", false,
+                                          Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
+                dialog.run();
+            } else {
+                std::cout << "RESERVATION MADE FOR 3:00 TODAY" << std::endl;
+                Gtk::CellRendererToggle* toggleRenderer = dynamic_cast<Gtk::CellRendererToggle*>(renderer);
+                if (toggleRenderer) {
+                    toggleRenderer->set_active(false);
+                }
             }
-            std::cout << "RESERVATION MADE FOR 3:00 TODAY" << std::endl;
-
-
-
-
         }
     }
 
