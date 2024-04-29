@@ -2,8 +2,8 @@
 // Created by laure on 2024/4/15.
 //
 
-#ifndef FUCHSIA2_APPFORUM_H
-#define FUCHSIA2_APPFORUM_H
+#ifndef APPFORUM_H
+#define APPFORUM_H
 
 #include <gtkmm.h>
 #include <vector>
@@ -11,11 +11,9 @@
 
 struct Comment {
     std::string text;
-    // Add any other necessary fields for comments
 };
 
-class AppForum : public Gtk::Box
-{
+class AppForum : public Gtk::Box {
 public:
     AppForum();
     virtual ~AppForum();
@@ -23,12 +21,12 @@ public:
 protected:
     Gtk::TextView forum_text_view;
     Gtk::Entry forum_text_entry;
-    Gtk::Button forum_post_button;
-
+    Gtk::VBox comment_button_container;
     std::vector<std::pair<std::string, std::vector<Comment>>> forum_posts;
 
-    void on_forum_post_button_clicked();
+    void on_post_comment_button_clicked();
     void on_comment_button_clicked(const std::string& post_text);
+    void update_forum_text_view();
 };
 
-#endif //FUCHSIA2_APPFORUM_H
+#endif // APPFORUM_H
