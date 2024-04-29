@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
         std::cout << "attribute " << i << " = " << output[i] << std::endl;
     }
 
-    auto app = Gtk::Application::create(argc, argv, "org.example.DatabaseWindow");
+    auto app = Gtk::Application::create(argc, argv, "org.example.ReservationWindow");
 
     MyWindow window;
     return app->run(window);

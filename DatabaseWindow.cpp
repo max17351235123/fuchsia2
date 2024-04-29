@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Database.h"
 #include "UserCredentials.h"
+#include "ReservationWindow.h"
 #include <sigc++/connection.h>
 
 
@@ -92,10 +93,19 @@ void DatabaseWindow::onSetCellData(Gtk::CellRenderer* renderer, const Gtk::TreeM
     }
 }
 
+void DatabaseWindow::on_reservation_window_hide(ReservationWindow* rWindow){
+    delete rWindow;
+}
+
 void DatabaseWindow::onButtonToggled(const Gtk::TreeModel::iterator& iter, Gtk::CellRenderer* renderer) {
     if (iter) {
         Gtk::TreeModel::Row row = *iter;
         int id = row[m_columns.m_col_id];
+
+
+
+
+
         if (!ns.add_reservation(to_string(id), "3:00")) {
             Gtk::MessageDialog dialog(*this, "There is already a reservation at this time!", false,
                                       Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
@@ -104,10 +114,21 @@ void DatabaseWindow::onButtonToggled(const Gtk::TreeModel::iterator& iter, Gtk::
             Gtk::MessageDialog dialog(*this, "Reservation made. Hope you're feeling eepy!", false,
                                       Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
             dialog.run();
+
+            auto *rWindow = new ReservationWindow();
+            rWindow->signal_hide().connect(
+                    sigc::bind(sigc::mem_fun(*this, &DatabaseWindow::on_reservation_window_hide), rWindow));
+            rWindow->show();
+
             Gtk::CellRendererToggle* toggleRenderer = dynamic_cast<Gtk::CellRendererToggle*>(renderer);
             if (toggleRenderer) {
                 toggleRenderer->set_active(false);
             }
+        }
+
+        Gtk::CellRendererToggle *toggleRenderer = dynamic_cast<Gtk::CellRendererToggle *>(renderer);
+        if (toggleRenderer) {
+            toggleRenderer->set_active(false);
         }
     }
 }

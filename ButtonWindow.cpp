@@ -230,8 +230,13 @@ void ButtonWindow::initialize_tab_3() {
 
 void ButtonWindow::on_button_clicked(const std::string& dbPath, const std::string& tableName, const std::string& attribute) {
     ns.filter_by_attribute(attribute);
-    auto* dbWindow = new DatabaseWindow(dbPath, tableName);
-    dbWindow->show();
+    //auto* dbWindow = new DatabaseWindow(dbPath, tableName);
+    //dbWindow->show();
+    auto *rWindow = new ReservationWindow();
+    // rWindow->signal_hide().connect(
+    //     sigc::bind(sigc::mem_fun(*this, &DatabaseWindow::on_reservation_window_hide), rWindow));
+    rWindow->show();
+
 }
 
 void ButtonWindow::on_submit_review() {

@@ -1,8 +1,11 @@
 #include "ReservationWindow.h"
 #include <iostream>
 
+
+
 ReservationWindow::ReservationWindow()
-        : Gtk::Box(Gtk::ORIENTATION_VERTICAL, 10),
+        : Gtk::Window(),
+          m_vbox(Gtk::ORIENTATION_VERTICAL, 10),
           combo_month(Gtk::manage(new Gtk::ComboBoxText())),
           combo_year(Gtk::manage(new Gtk::ComboBoxText())),
           combo_day_first(Gtk::manage(new Gtk::ComboBoxText())),
@@ -10,13 +13,16 @@ ReservationWindow::ReservationWindow()
           combo_time(Gtk::manage(new Gtk::ComboBoxText())),
           combo_am_pm(Gtk::manage(new Gtk::ComboBoxText()))
 {
-    // Create a label for the tab
+    set_title("Reservation Window");
+    set_default_size(400, 300);
+
+    // Create a label for the window
     auto label = Gtk::manage(new Gtk::Label("Select Date and Time"));
-    pack_start(*label, Gtk::PACK_SHRINK);
+    m_vbox.pack_start(*label, Gtk::PACK_SHRINK);
 
     // Create a horizontal box for the month and year combo boxes
     auto hbox_month_year = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL, 10));
-    pack_start(*hbox_month_year, Gtk::PACK_SHRINK);
+    m_vbox.pack_start(*hbox_month_year, Gtk::PACK_SHRINK);
 
     // Create a combo box for selecting the month
     combo_month->append("January");
@@ -43,7 +49,7 @@ ReservationWindow::ReservationWindow()
 
     // Create a horizontal box for the day combo boxes
     auto hbox_day = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL, 5));
-    pack_start(*hbox_day, Gtk::PACK_SHRINK);
+    m_vbox.pack_start(*hbox_day, Gtk::PACK_SHRINK);
 
     // Create combo boxes for selecting the day (first and second digits)
     for (int i = 0; i <= 3; ++i) {
@@ -59,7 +65,7 @@ ReservationWindow::ReservationWindow()
 
     // Create a horizontal box for the time combo box and AM/PM combo box
     auto hbox_time = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL, 5));
-    pack_start(*hbox_time, Gtk::PACK_SHRINK);
+    m_vbox.pack_start(*hbox_time, Gtk::PACK_SHRINK);
 
     // Create a combo box for selecting the time (1-hour increments)
     for (int i = 0; i <= 12; ++i) {
@@ -78,7 +84,9 @@ ReservationWindow::ReservationWindow()
     // Create a button to get the formatted date-time string
     auto button_get_datetime = Gtk::manage(new Gtk::Button("Reserve"));
     button_get_datetime->signal_clicked().connect(sigc::mem_fun(*this, &ReservationWindow::on_button_reserve_clicked));
-    pack_start(*button_get_datetime, Gtk::PACK_SHRINK);
+    m_vbox.pack_start(*button_get_datetime, Gtk::PACK_SHRINK);
+
+    add(m_vbox);
 
     // Show all widgets
     show_all_children();

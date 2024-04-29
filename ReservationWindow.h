@@ -4,7 +4,7 @@
 #include <gtkmm.h>
 #include <gtkmm/comboboxtext.h>
 
-class ReservationWindow : public Gtk::Box {
+class ReservationWindow : public Gtk::Window {
 public:
     ReservationWindow();
     Glib::ustring get_formatted_datetime() const;
@@ -20,6 +20,7 @@ private:
     Gtk::ComboBoxText* combo_am_pm;
 
     Glib::ustring m_formatted_datetime;
+    Gtk::Box m_vbox;
 };
 
 #endif // ReservationWindow_H
