@@ -18,13 +18,13 @@ UserCredentials::~UserCredentials(){
 
 void UserCredentials::addCredential(const std::string& username, const std::string& password) {
 
-    //add 1 to the biggest ccurrent user_id
+    //add 1 to the biggest current user_id
     int user_id = db->id_query("users", "user_id") + 1;
 
     //add a new account
-    vector<string> usertable = {"user_id", "username", "password", "admin"};
+    vector<string> usertable = {"user_id", "username", "password"};
 
-    vector<string> newAccount = {to_string(user_id), username, password, "0"};
+    vector<string> newAccount = {to_string(user_id), username, password};
 
     int auth = authenticateUser(username, password);
     if (auth != 2) {

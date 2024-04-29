@@ -13,7 +13,7 @@ public:
 private:
     void loadDataFromDatabase();
     void onSetCellData(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
-    void onButtonToggled(const Gtk::TreeModel::iterator& iter);
+    void onButtonToggled(const Gtk::TreeModel::iterator& iter, Gtk::CellRenderer* renderer);
 
     class ModelColumns : public Gtk::TreeModel::ColumnRecord {
     public:

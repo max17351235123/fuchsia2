@@ -3,13 +3,16 @@
 #include "Database.h"
 #include "UserCredentials.h"
 #include "Napspot.h"
+#include "MyWindow.h"
 #include <vector>
+#include "ReservationWindow.h"
 
 Database db("napspots.sqlite", "../database");
 UserCredentials uc;
 Napspot ns("1");
 
 int main(int argc, char *argv[]) {
+
     std::vector<std::string> attribute{"warm"};
     std::vector<std::string> attribute2{"chilly"};
     std::vector<std::string> attribute3{"quiet"};
@@ -38,6 +41,7 @@ int main(int argc, char *argv[]) {
 
     auto app = Gtk::Application::create(argc, argv, "org.example.DatabaseWindow");
 
-    ButtonWindow window;
+    MyWindow window;
     return app->run(window);
-}
+
+    }

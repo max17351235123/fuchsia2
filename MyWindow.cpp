@@ -3,9 +3,10 @@
 //
 
 #include "MyWindow.h"
+#include "ButtonWindow.h"
 
 
-    MyWindow::MyWindow()
+MyWindow::MyWindow()
     {
         set_title("Login");
         set_default_size(300, 200);
@@ -44,6 +45,8 @@ void MyWindow::on_login_clicked() {
     if (credentials.authenticateUser(username, password)==0) {
         Gtk::MessageDialog dialog(*this, "Authentication successful!", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);
         dialog.run();
+        auto* bWindow = new ButtonWindow();
+        bWindow->show();
     } else if(credentials.authenticateUser(username, password)==2) {
         Gtk::MessageDialog dialog(*this, "There is no account associated with that username", false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
         dialog.run();
