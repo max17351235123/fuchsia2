@@ -294,6 +294,7 @@ int Database::double_query(const string& table, const string& con1_column, const
         std::cerr << "SQL error: " << errMsg << std::endl;
         sqlite3_free(errMsg);
         return 0;
+
     } else {
         if (result.empty()) {
             cerr << "search not found" << endl;

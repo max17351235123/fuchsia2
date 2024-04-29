@@ -17,6 +17,8 @@ ButtonWindow::ButtonWindow()
     initialize_tab_1();
     initialize_tab_2();
     initialize_tab_3();
+    initialize_tab_4();
+
 
     // Add the notebook to the vertical box
     m_VBox.pack_start(m_Notebook);
@@ -227,6 +229,73 @@ void ButtonWindow::initialize_tab_3() {
     m_Notebook.append_page(tab_box_3, "Select Date and Time");
 }
 
+void ButtonWindow::initialize_tab_4() {
+
+    auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL, 10);
+    tab_box_4.add(*vbox);
+    auto hbox_name = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
+    vbox->pack_start(*hbox_name, Gtk::PACK_SHRINK);
+
+
+    auto label_name = Gtk::make_managed<Gtk::Label>("Napspot Name:");
+    hbox_name->pack_start(*label_name, Gtk::PACK_SHRINK);
+
+    m_napspot_name = Gtk::make_managed<Gtk::Entry>();
+    hbox_name->pack_start(*m_napspot_name, Gtk::PACK_EXPAND_WIDGET);
+
+    //box1
+    auto hbox_attr = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
+    vbox->pack_start(*hbox_attr, Gtk::PACK_SHRINK);
+
+    //labels for attributes
+    auto label_attr1 = Gtk::make_managed<Gtk::Label>("Attributes:");
+    hbox_attr->pack_start(*label_attr1, Gtk::PACK_SHRINK);
+
+    //attr1
+    m_combo_attr1 = Gtk::make_managed<Gtk::ComboBoxText>();
+    m_combo_attr1->append("Warm");
+    m_combo_attr1->append("Chilly");
+    hbox_attr->pack_start(*m_combo_attr1, Gtk::PACK_SHRINK);
+    //attr2
+    m_combo_attr2 = Gtk::make_managed<Gtk::ComboBoxText>();
+    m_combo_attr2->append("Quiet");
+    m_combo_attr2->append("Noisy");
+    hbox_attr->pack_start(*m_combo_attr2, Gtk::PACK_SHRINK);
+    //attr3
+    m_combo_attr3 = Gtk::make_managed<Gtk::ComboBoxText>();
+    m_combo_attr3->append("Dark");
+    m_combo_attr3->append("Bright");
+    // Add more attributes as needed
+    hbox_attr->pack_start(*m_combo_attr3, Gtk::PACK_SHRINK);
+
+
+    auto button_add_napspot = Gtk::make_managed<Gtk::Button>("Add Napspot");
+    button_add_napspot->signal_clicked().connect(sigc::mem_fun(*this, &ButtonWindow::on_add_napspot_clicked));
+    vbox->pack_start(*button_add_napspot, Gtk::PACK_SHRINK);
+
+    m_Notebook.append_page(tab_box_4, "Add Napspot");
+}
+
+void ButtonWindow::on_add_napspot_clicked() {
+    // Get the Napspot Name from the entry
+    Glib::ustring napspot_name = m_napspot_name->get_text();
+    vector<string> attribute;
+    // Get the selected Rating from the combo box
+    attribute.push_back((m_combo_attr1->get_active_text()));
+
+    // Get the selected Rating from the combo box
+    attribute.push_back((m_combo_attr2->get_active_text()));
+
+    // Get the selected Rating from the combo box
+    attribute.push_back((m_combo_attr3->get_active_text()));
+
+    // Call a method to process the review
+
+    ns.add_napspot(napspot_name,attribute);
+
+    Gtk::MessageDialog dialog(*this, "Napspot Added!", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);
+    dialog.run();
+}
 
 void ButtonWindow::on_button_clicked(const std::string& dbPath, const std::string& tableName, const std::string& attribute) {
     ns.filter_by_attribute(attribute);
