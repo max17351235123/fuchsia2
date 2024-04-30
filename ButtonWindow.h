@@ -22,6 +22,7 @@ private:
     void initialize_tab_1();
     void initialize_tab_2();
     void initialize_tab_3();
+    void initialize_tab_4();
 
     Gtk::Notebook m_Notebook;
     Gtk::Box m_VBox;

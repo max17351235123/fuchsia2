@@ -17,6 +17,7 @@ ButtonWindow::ButtonWindow()
     initialize_tab_1();
     initialize_tab_2();
     initialize_tab_3();
+    initialize_tab_4();
 
     // Add the notebook to the vertical box
     m_VBox.pack_start(m_Notebook);
@@ -225,6 +226,9 @@ void ButtonWindow::initialize_tab_3() {
 
     // Add the third tab to the notebook
     m_Notebook.append_page(tab_box_3, "Select Date and Time");
+}
+void ButtonWindow::initialize_tab_4() {
+
 }
 
 
