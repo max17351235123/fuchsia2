@@ -18,6 +18,7 @@ ButtonWindow::ButtonWindow()
     initialize_tab_2();
     initialize_tab_3();
     initialize_tab_4();
+    initialize_tab_5();
 
 
     // Add the notebook to the vertical box
@@ -274,6 +275,90 @@ void ButtonWindow::initialize_tab_4() {
     vbox->pack_start(*button_add_napspot, Gtk::PACK_SHRINK);
 
     m_Notebook.append_page(tab_box_4, "Add Napspot");
+}
+
+void ButtonWindow::initialize_tab_5() {
+    // Create a vertical box to hold the widgets
+    auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL, 10);
+    tab_box_5.add(*vbox);
+
+    // Create a horizontal box for the Napspot ID entry
+    auto hbox_entry = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
+    vbox->pack_start(*hbox_entry, Gtk::PACK_SHRINK);
+
+    // Create a label for the Napspot ID entry
+    auto label_napspot_id = Gtk::make_managed<Gtk::Label>("Napspot ID:");
+    hbox_entry->pack_start(*label_napspot_id, Gtk::PACK_SHRINK);
+
+    // Create an entry for the Napspot ID
+    m_entry_napspot_id = Gtk::make_managed<Gtk::Entry>();
+    hbox_entry->pack_start(*m_entry_napspot_id, Gtk::PACK_EXPAND_WIDGET);
+
+    // Create a button to fetch reviews
+    auto button_fetch_reviews = Gtk::make_managed<Gtk::Button>("Fetch Reviews");
+    button_fetch_reviews->signal_clicked().connect(sigc::mem_fun(*this, &ButtonWindow::on_fetch_reviews_clicked));
+    vbox->pack_start(*button_fetch_reviews, Gtk::PACK_SHRINK);
+
+    // Create a tree model and tree view for reviews
+    m_refTreeModel_reviews = Gtk::ListStore::create(m_columns_reviews);
+    m_treeView_reviews.set_model(m_refTreeModel_reviews);
+    m_treeView_reviews.append_column("Review ID", m_columns_reviews.m_col_review_id);
+    m_treeView_reviews.append_column("User ID", m_columns_reviews.m_col_user_id);
+    m_treeView_reviews.append_column("Text", m_columns_reviews.m_col_text);
+    m_treeView_reviews.append_column("Rating", m_columns_reviews.m_col_rating);
+
+    // Create a scrolled window and add the tree view
+    auto scrolledWindow_reviews = Gtk::make_managed<Gtk::ScrolledWindow>();
+    scrolledWindow_reviews->add(m_treeView_reviews);
+    vbox->pack_start(*scrolledWindow_reviews, Gtk::PACK_EXPAND_WIDGET);
+
+    // Add the fifth tab to the notebook
+    m_Notebook.append_page(tab_box_5, "Reviews");
+}
+
+void ButtonWindow::on_fetch_reviews_clicked() {
+    // Get the entered Napspot ID
+    std::string napspot_id = m_entry_napspot_id->get_text();
+
+    // Clear the existing reviews from the tree model
+    m_refTreeModel_reviews->clear();
+
+    // Fetch reviews from the database based on the Napspot ID
+    sqlite3* db;
+    int rc = sqlite3_open("../database/napspots.sqlite", &db);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Failed to open database: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_close(db);
+        return;
+    }
+
+    std::string query = "SELECT * FROM reviews WHERE napspot_id = ?";
+    sqlite3_stmt* stmt;
+    rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Failed to prepare statement: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return;
+    }
+
+    sqlite3_bind_text(stmt, 1, napspot_id.c_str(), -1, SQLITE_TRANSIENT);
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        int review_id = sqlite3_column_int(stmt, 0);
+        std::string user_id = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        std::string text = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+        int rating = sqlite3_column_int(stmt, 4);
+
+        Gtk::TreeModel::Row row = *(m_refTreeModel_reviews->append());
+        row[m_columns_reviews.m_col_review_id] = review_id;
+        row[m_columns_reviews.m_col_user_id] = user_id;
+        row[m_columns_reviews.m_col_text] = text;
+        row[m_columns_reviews.m_col_rating] = rating;
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
 }
 
 void ButtonWindow::on_add_napspot_clicked() {
