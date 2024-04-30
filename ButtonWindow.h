@@ -10,6 +10,10 @@
 #include <gtkmm/comboboxtext.h>
 #include <gtkmm/button.h>
 
+struct Comment {
+    std::string text;
+};
+
 class ButtonWindow : public Gtk::Window {
 public:
     ButtonWindow();
@@ -23,7 +27,6 @@ private:
     void initialize_tab_2();
     void initialize_tab_3();
     void initialize_tab_4();
-    void initUI();
     void on_post_comment_button_clicked();
     void on_comment_button_clicked(std::string post_text);
     void update_forum_text_view();

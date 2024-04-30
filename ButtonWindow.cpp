@@ -5,8 +5,11 @@
 extern Napspot ns;
 
 ButtonWindow::ButtonWindow()
-        : m_VBox(Gtk::ORIENTATION_VERTICAL)
-{
+        : m_VBox(Gtk::ORIENTATION_VERTICAL),
+          forum_text_view(),
+          forum_text_entry(),
+          post_comment_button("Post"),
+          posts_container(Gtk::ORIENTATION_VERTICAL) {
     set_title("Choose an Attribute");
     set_default_size(1200, 600);
 
@@ -83,64 +86,63 @@ void ButtonWindow::initialize_tab_1() {
     m_Notebook.append_page(tab_box_1, "Attribute Selection");
 }
 
-void ButtonWindow::initialize_tab_2() {
+void ButtonWindow::initialize_tab_2(){
 
-        // Create a vertical box to hold the widgets
-        auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL, 10);
-        tab_box_2.add(*vbox);
+    // Create a vertical box to hold the widgets
+    auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL, 10);
+    tab_box_2.add(*vbox);
 
-        // Create a horizontal box for the Napspot Name label and entry
-        auto hbox_name = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
-        vbox->pack_start(*hbox_name, Gtk::PACK_SHRINK);
+    // Create a horizontal box for the Napspot Name label and entry
+    auto hbox_name = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
+    vbox->pack_start(*hbox_name, Gtk::PACK_SHRINK);
 
-        // Create a label for the Napspot Name
-        auto label_name = Gtk::make_managed<Gtk::Label>("Napspot ID:");
-        hbox_name->pack_start(*label_name, Gtk::PACK_SHRINK);
+    // Create a label for the Napspot Name
+    auto label_name = Gtk::make_managed<Gtk::Label>("Napspot ID:");
+    hbox_name->pack_start(*label_name, Gtk::PACK_SHRINK);
 
-        // Create an entry for the Napspot Name
-        m_entry_name = Gtk::make_managed<Gtk::Entry>();
-        hbox_name->pack_start(*m_entry_name, Gtk::PACK_EXPAND_WIDGET);
+    // Create an entry for the Napspot Name
+    m_entry_name = Gtk::make_managed<Gtk::Entry>();
+    hbox_name->pack_start(*m_entry_name, Gtk::PACK_EXPAND_WIDGET);
 
-        // Create a label for the Review
-        auto label_review = Gtk::make_managed<Gtk::Label>("Review:");
-        vbox->pack_start(*label_review, Gtk::PACK_SHRINK);
+    // Create a label for the Review
+    auto label_review = Gtk::make_managed<Gtk::Label>("Review:");
+    vbox->pack_start(*label_review, Gtk::PACK_SHRINK);
 
-        // Create a scroll window for the Review text view
-        auto scrolled_window = Gtk::make_managed<Gtk::ScrolledWindow>();
-        scrolled_window->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
-        scrolled_window->set_shadow_type(Gtk::SHADOW_IN);
-        vbox->pack_start(*scrolled_window, Gtk::PACK_EXPAND_WIDGET);
+    // Create a scroll window for the Review text view
+    auto scrolled_window = Gtk::make_managed<Gtk::ScrolledWindow>();
+    scrolled_window->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+    scrolled_window->set_shadow_type(Gtk::SHADOW_IN);
+    vbox->pack_start(*scrolled_window, Gtk::PACK_EXPAND_WIDGET);
 
-        // Create a text view for the Review
-        m_text_view = Gtk::make_managed<Gtk::TextView>();
-        m_text_view->set_wrap_mode(Gtk::WRAP_WORD);
-        scrolled_window->add(*m_text_view);
+    // Create a text view for the Review
+    m_text_view = Gtk::make_managed<Gtk::TextView>();
+    m_text_view->set_wrap_mode(Gtk::WRAP_WORD);
+    scrolled_window->add(*m_text_view);
 
-        // Create a horizontal box for the Rating label and combo box
-        auto hbox_rating = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
-        vbox->pack_start(*hbox_rating, Gtk::PACK_SHRINK);
+    // Create a horizontal box for the Rating label and combo box
+    auto hbox_rating = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
+    vbox->pack_start(*hbox_rating, Gtk::PACK_SHRINK);
 
-        // Create a label for the Rating
-        auto label_rating = Gtk::make_managed<Gtk::Label>("Rating:");
-        hbox_rating->pack_start(*label_rating, Gtk::PACK_SHRINK);
+    // Create a label for the Rating
+    auto label_rating = Gtk::make_managed<Gtk::Label>("Rating:");
+    hbox_rating->pack_start(*label_rating, Gtk::PACK_SHRINK);
 
-        // Create a combo box for the Rating
-        m_combo_rating = Gtk::make_managed<Gtk::ComboBoxText>();
-        for (int i = 1; i <= 10; ++i) {
-            m_combo_rating->append(std::to_string(i));
-        }
-        m_combo_rating->set_active(0);
-        hbox_rating->pack_start(*m_combo_rating, Gtk::PACK_SHRINK);
-
-        // Create a button to submit the review
-        auto button_submit = Gtk::make_managed<Gtk::Button>("Submit Review");
-        button_submit->signal_clicked().connect(sigc::mem_fun(*this, &ButtonWindow::on_submit_review));
-        vbox->pack_start(*button_submit, Gtk::PACK_SHRINK);
-
-
-
-        m_Notebook.append_page(tab_box_2, "Write a Review");
+    // Create a combo box for the Rating
+    m_combo_rating = Gtk::make_managed<Gtk::ComboBoxText>();
+    for (int i = 1; i <= 10; ++i) {
+        m_combo_rating->append(std::to_string(i));
     }
+    m_combo_rating->set_active(0);
+    hbox_rating->pack_start(*m_combo_rating, Gtk::PACK_SHRINK);
+
+    // Create a button to submit the review
+    auto button_submit = Gtk::make_managed<Gtk::Button>("Submit Review");
+    button_submit->signal_clicked().connect(sigc::mem_fun(*this, &ButtonWindow::on_submit_review));
+    vbox->pack_start(*button_submit, Gtk::PACK_SHRINK);
+
+
+    m_Notebook.append_page(tab_box_2, "Write a Review");
+}
 
 void ButtonWindow::initialize_tab_3() {
 
@@ -227,69 +229,18 @@ void ButtonWindow::initialize_tab_3() {
     // Add the third tab to the notebook
     m_Notebook.append_page(tab_box_3, "Select Date and Time");
 }
+
 void ButtonWindow::initialize_tab_4() {
-    ButtonWindow::ButtonWindow()
-    : Gtk::Box(Gtk::ORIENTATION_VERTICAL),
-            post_comment_button("Post")
-    {
-        initUI();
+    post_comment_button.signal_clicked().connect(sigc::mem_fun(*this, &ButtonWindow::on_post_comment_button_clicked));
+
+    posts_container.pack_start(forum_text_view, Gtk::PACK_EXPAND_WIDGET);
+    posts_container.pack_start(forum_text_entry, Gtk::PACK_SHRINK);
+    posts_container.pack_start(post_comment_button, Gtk::PACK_SHRINK);
+    m_Notebook.append_page(posts_container, "Forum");
+
+    show_all_children();  // Make sure all widgets are shown
     }
 
-    ButtonWindow::~ButtonWindow() {
-        for (auto& button_pair : comment_buttons) {
-            delete button_pair.first; // Ensure we clean up dynamically created buttons
-        }
-    }
-
-    void ButtonWindow::initUI() {
-        // Set up the forum text view and make it read-only
-        forum_text_view.set_editable(false);
-        forum_text_view.set_cursor_visible(false);
-
-        // Set placeholder text for the entry where users type their message
-        forum_text_entry.set_placeholder_text("Enter your message...");
-
-        // Set up the post/comment button
-        post_comment_button.signal_clicked().connect(sigc::mem_fun(*this, &AppForum::on_post_comment_button_clicked));
-
-        // Pack the widgets into the vertical box
-        pack_start(forum_text_view, Gtk::PACK_EXPAND_WIDGET);
-        pack_start(forum_text_entry, Gtk::PACK_SHRINK);
-        pack_start(post_comment_button, Gtk::PACK_SHRINK);
-        pack_start(posts_container, Gtk::PACK_EXPAND_WIDGET); // Container for posts and comment buttons
-
-        // Update the display to show initial posts
-        update_forum_text_view();
-
-        // Ensure all child widgets are shown
-        show_all_children();
-    }
-
-    void ButtonWindow::on_post_comment_button_clicked() {
-        std::string text = forum_text_entry.get_text();
-        if (!text.empty()) {
-            add_post_with_comment_button(text);
-            forum_text_entry.set_text("");
-            update_forum_text_view();
-        } else {
-            std::cout << "No text entered." << std::endl;
-        }
-    }
-
-    void ButtonWindow::add_post_with_comment_button(const std::string& post_text) {
-        forum_posts.emplace_back(post_text, std::vector<Comment>());
-
-        // Create a new comment button for this post
-        Gtk::Button* comment_button = new Gtk::Button("Comment on: " + post_text);
-        comment_button->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &AppForum::on_comment_button_clicked), post_text));
-        posts_container.pack_start(*comment_button, Gtk::PACK_SHRINK);
-        comment_button->show();
-
-        comment_buttons.emplace_back(comment_button, post_text);
-    }
-
-
-}
 
 
 void ButtonWindow::on_button_clicked(const std::string& dbPath, const std::string& tableName, const std::string& attribute) {
@@ -367,4 +318,28 @@ void ButtonWindow::update_forum_text_view() {
         }
     }
     forum_text_view.get_buffer()->set_text(forum_content);
+
+}
+
+void ButtonWindow::on_post_comment_button_clicked() {
+    std::string text = forum_text_entry.get_text();
+    if (!text.empty()) {
+        add_post_with_comment_button(text);
+        forum_text_entry.set_text("");
+        update_forum_text_view();
+    } else {
+        std::cout << "No text entered." << std::endl;
+    }
+}
+
+void ButtonWindow::add_post_with_comment_button(const std::string& post_text) {
+    forum_posts.emplace_back(post_text, std::vector<Comment>());
+
+    // Create a new comment button for this post
+    Gtk::Button* comment_button = new Gtk::Button("Comment on: " + post_text);
+    comment_button->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &ButtonWindow::on_comment_button_clicked), post_text));
+    posts_container.pack_start(*comment_button, Gtk::PACK_SHRINK);
+    comment_button->show();
+
+    comment_buttons.emplace_back(comment_button, post_text);
 }
