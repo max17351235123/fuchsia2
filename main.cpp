@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
     ns.add_napspot("japan", attribute3);
     ns.add_napspot("himalayas", attribute4);
     ns.add_napspot("garden", attribute5);
-    ns.add_napspot("cottage", attribute6);
+    ns.add_napspot("a hidden cave tucked away in the cliffs along the mediterranean coast", attribute6);
     ns.add_napspot("lezhis room", attribute7);
     */
 
