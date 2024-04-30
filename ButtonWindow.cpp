@@ -24,7 +24,6 @@ ButtonWindow::ButtonWindow()
     // Add the notebook pages
     initialize_tab_1();
     initialize_tab_2();
-    initialize_tab_3();
     initialize_tab_4();
     initialize_tab_5();
     initialize_tab_6();
@@ -154,91 +153,7 @@ void ButtonWindow::initialize_tab_2() {
         m_Notebook.append_page(tab_box_2, "Write a Review");
     }
 
-void ButtonWindow::initialize_tab_3() {
 
-    // Create a vertical box to hold the widgets
-    auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL, 10);
-    tab_box_3.add(*vbox);
-
-    // Create a label for the tab
-    auto label = Gtk::make_managed<Gtk::Label>("Select Date and Time");
-    vbox->pack_start(*label, Gtk::PACK_SHRINK);
-
-    // Create a horizontal box for the month and year combo boxes
-    auto hbox_month_year = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
-    vbox->pack_start(*hbox_month_year, Gtk::PACK_SHRINK);
-
-    // Create a combo box for selecting the month
-    combo_month = Gtk::make_managed<Gtk::ComboBoxText>();
-    combo_month->append("January");
-    combo_month->append("February");
-    combo_month->append("March");
-    combo_month->append("April");
-    combo_month->append("May");
-    combo_month->append("June");
-    combo_month->append("July");
-    combo_month->append("August");
-    combo_month->append("September");
-    combo_month->append("October");
-    combo_month->append("November");
-    combo_month->append("December");
-    combo_month->set_active(0);
-    hbox_month_year->pack_start(*combo_month, Gtk::PACK_EXPAND_WIDGET);
-
-    // Create a combo box for selecting the year
-    combo_year = Gtk::make_managed<Gtk::ComboBoxText>();
-    for (int i = 2024; i <= 2034; ++i) {
-        combo_year->append(std::to_string(i));
-    }
-    combo_year->set_active(0);
-    hbox_month_year->pack_start(*combo_year, Gtk::PACK_EXPAND_WIDGET);
-
-    // Create a horizontal box for the day combo boxes
-    auto hbox_day = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 5);
-    vbox->pack_start(*hbox_day, Gtk::PACK_SHRINK);
-
-    // Create combo boxes for selecting the day (first and second digits)
-    combo_day_first = Gtk::make_managed<Gtk::ComboBoxText>();
-    combo_day_second = Gtk::make_managed<Gtk::ComboBoxText>();
-    for (int i = 0; i <= 3; ++i) {
-        combo_day_first->append(std::to_string(i));
-    }
-    for (int i = 0; i <= 9; ++i) {
-        combo_day_second->append(std::to_string(i));
-    }
-    combo_day_first->set_active(0);
-    combo_day_second->set_active(0);
-    hbox_day->pack_start(*combo_day_first, Gtk::PACK_SHRINK);
-    hbox_day->pack_start(*combo_day_second, Gtk::PACK_SHRINK);
-
-    // Create a horizontal box for the time combo box and AM/PM combo box
-    auto hbox_time = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 5);
-    vbox->pack_start(*hbox_time, Gtk::PACK_SHRINK);
-
-    // Create a combo box for selecting the time (1-hour increments)
-    combo_time = Gtk::make_managed<Gtk::ComboBoxText>();
-    combo_time->append("12:00");
-    for (int i = 1; i <= 11; ++i) {
-        std::string time = std::to_string(i) + ":00";
-        combo_time->append(time);
-    }
-    combo_time->set_active(0);
-    hbox_time->pack_start(*combo_time, Gtk::PACK_EXPAND_WIDGET);
-
-    // Create a combo box for selecting AM or PM
-    combo_am_pm = Gtk::make_managed<Gtk::ComboBoxText>();
-    combo_am_pm->append("AM");
-    combo_am_pm->append("PM");
-    combo_am_pm->set_active(0);
-    hbox_time->pack_start(*combo_am_pm, Gtk::PACK_SHRINK);
-
-    auto button_get_datetime = Gtk::make_managed<Gtk::Button>("Get Date-Time");
-    button_get_datetime->signal_clicked().connect(sigc::mem_fun(*this, &ButtonWindow::on_button_get_datetime_clicked));
-    vbox->pack_start(*button_get_datetime, Gtk::PACK_SHRINK);
-
-    // Add the third tab to the notebook
-    m_Notebook.append_page(tab_box_3, "Select Date and Time");
-}
 
 void ButtonWindow::initialize_tab_4() {
 
@@ -545,29 +460,7 @@ void ButtonWindow::on_submit_review() {
     dialog.run();
 }
 
-void ButtonWindow::on_button_get_datetime_clicked() {
 
-    // Get the selected month
-    Glib::ustring month = combo_month->get_active_text();
-
-    // Get the selected day
-    Glib::ustring day = combo_day_first->get_active_text() + combo_day_second->get_active_text();
-
-    // Get the selected year
-    Glib::ustring year = combo_year->get_active_text();
-
-    // Get the selected time
-    Glib::ustring time = combo_time->get_active_text();
-
-    // Get the selected AM/PM
-    Glib::ustring am_pm = combo_am_pm->get_active_text();
-
-    // Format the date-time string
-    Glib::ustring m_formatted_datetime = month + "/" + day + "/" + year + "/" + time + "/" + am_pm;
-
-    // Print the formatted date-time string (for demonstration purposes)
-    std::cout << "Formatted Date-Time: "+ m_formatted_datetime  << std::endl;
-}
 
 void ButtonWindow::on_comment_button_clicked(std::string post_text) {
     // Get comment text and update the forum
