@@ -1,100 +1,88 @@
-//
-// Created by laure on 2024/4/15.
-//
-
 #include "AppForum.h"
+#include <iostream>
 
 AppForum::AppForum()
-        : Gtk::Box(Gtk::ORIENTATION_VERTICAL)
+        : Gtk::Box(Gtk::ORIENTATION_VERTICAL),
+          post_comment_button("Post")
 {
-    // Create the forum text view and set it to be read-only
+    initUI();
+}
+
+AppForum::~AppForum() {
+    for (auto& button_pair : comment_buttons) {
+        delete button_pair.first; // Ensure we clean up dynamically created buttons
+    }
+}
+
+void AppForum::initUI() {
+    // Set up the forum text view and make it read-only
     forum_text_view.set_editable(false);
     forum_text_view.set_cursor_visible(false);
 
-    // Create the forum text entry and post button
+    // Set placeholder text for the entry where users type their message
     forum_text_entry.set_placeholder_text("Enter your message...");
-    forum_post_button.set_label("Post");
 
-    // Connect the post button signal to the on_forum_post_button_clicked function
-    forum_post_button.signal_clicked().connect(
-            sigc::mem_fun(*this, &AppForum::on_forum_post_button_clicked)
-    );
+    // Set up the post/comment button
+    post_comment_button.signal_clicked().connect(sigc::mem_fun(*this, &AppForum::on_post_comment_button_clicked));
 
-    // Pack the widgets into the box
-    pack_start(forum_text_view);
-    pack_start(forum_text_entry);
-    pack_start(forum_post_button);
+    // Pack the widgets into the vertical box
+    pack_start(forum_text_view, Gtk::PACK_EXPAND_WIDGET);
+    pack_start(forum_text_entry, Gtk::PACK_SHRINK);
+    pack_start(post_comment_button, Gtk::PACK_SHRINK);
+    pack_start(posts_container, Gtk::PACK_EXPAND_WIDGET); // Container for posts and comment buttons
+
+    // Update the display to show initial posts
+    update_forum_text_view();
+
+    // Ensure all child widgets are shown
+    show_all_children();
 }
 
-AppForum::~AppForum()
-{
+void AppForum::on_post_comment_button_clicked() {
+    std::string text = forum_text_entry.get_text();
+    if (!text.empty()) {
+        add_post_with_comment_button(text);
+        forum_text_entry.set_text("");
+        update_forum_text_view();
+    } else {
+        std::cout << "No text entered." << std::endl;
+    }
 }
 
-void AppForum::on_forum_post_button_clicked()
-{
-    // Get the text from the forum text entry
-    Glib::ustring post_text = forum_text_entry.get_text();
-
-    // Add the post to the forum posts vector
+void AppForum::add_post_with_comment_button(const std::string& post_text) {
     forum_posts.emplace_back(post_text, std::vector<Comment>());
 
-    // Clear the forum text entry
-    forum_text_entry.set_text("");
+    // Create a new comment button for this post
+    Gtk::Button* comment_button = new Gtk::Button("Comment on: " + post_text);
+    comment_button->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &AppForum::on_comment_button_clicked), post_text));
+    posts_container.pack_start(*comment_button, Gtk::PACK_SHRINK);
+    comment_button->show();
 
-    // Add a comment button for the new post
-    Gtk::Button comment_button;
-    comment_button.set_label("Comment");
-    comment_button.signal_clicked().connect(
-            sigc::bind<std::string>(
-                    sigc::mem_fun(*this, &AppForum::on_comment_button_clicked),
-                    post_text
-            )
-    );
-
-    // Pack the comment button into the box
-    pack_start(comment_button);
-
-    // Update the forum text view with the new posts
-    Glib::ustring forum_content;
-    for (const auto& post_pair : forum_posts)
-    {
-        const std::string& post = post_pair.first;
-        forum_content += post + "\n";
-        for (const auto& comment : post_pair.second)
-        {
-            forum_content += "    " + comment.text + "\n";
-        }
-    }
-    forum_text_view.get_buffer()->set_text(forum_content);
+    comment_buttons.emplace_back(comment_button, post_text);
 }
 
-void AppForum::on_comment_button_clicked(const std::string& post_text)
-{
-    // Get the comment text from the forum text entry
-    Glib::ustring comment_text = forum_text_entry.get_text();
-
-    // Find the post to comment on
-    for (auto& post_pair : forum_posts)
-    {
-        if (post_pair.first == post_text)
-        {
-            // Add the comment to the post's comment vector
-            post_pair.second.push_back({comment_text});
-            break;
+void AppForum::on_comment_button_clicked(std::string post_text) {
+    // Get comment text and update the forum
+    std::string comment_text = forum_text_entry.get_text();
+    if (!comment_text.empty()) {
+        for (auto& post_pair : forum_posts) {
+            if (post_pair.first == post_text) {
+                post_pair.second.push_back(Comment{comment_text});
+                break;
+            }
         }
+        forum_text_entry.set_text("");
+        update_forum_text_view();
+    } else {
+        std::cout << "No comment entered." << std::endl;
     }
+}
 
-    // Clear the forum text entry
-    forum_text_entry.set_text("");
-
-    // Update the forum text view with the new comments
+void AppForum::update_forum_text_view() {
     Glib::ustring forum_content;
-    for (const auto& post_pair : forum_posts)
-    {
-        const std::string& post = post_pair.first;
-        forum_content += post + "\n";
-        for (const auto& comment : post_pair.second)
-        {
+    for (const auto& post_pair : forum_posts) {
+        forum_content += post_pair.first + "\n";
+        for (const auto& comment : post_pair.second) {
             forum_content += "    " + comment.text + "\n";
         }
     }

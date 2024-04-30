@@ -3,11 +3,14 @@
 //
 
 #include "UserCredentials.h"
+#include "Napspot.h"
 #include <iostream>
 #include <vector>
 #include <sqlite3.h>
 #include "Database.h"
 using namespace std;
+
+extern Napspot ns;
 
 UserCredentials::UserCredentials() {
     db = Database::get_db("napspots.sqlite", "../database");
@@ -17,21 +20,21 @@ UserCredentials::~UserCredentials(){
 
 void UserCredentials::addCredential(const std::string& username, const std::string& password) {
 
-    //add 1 to the biggest ccurrent user_id
+    //add 1 to the biggest current user_id
     int user_id = db->id_query("users", "user_id") + 1;
 
     //add a new account
     vector<string> usertable = {"user_id", "username", "password"};
+
     vector<string> newAccount = {to_string(user_id), username, password};
 
     int auth = authenticateUser(username, password);
     if (auth != 2) {
-        cout << "authenticate user outputting " << auth << endl;
         cerr << "account with that name already exists" << endl;
         return;
     }
 
-    db->add_row(db->get_curr(), "users", usertable, newAccount);
+    db->add_row("users", usertable, newAccount);
 
     //log it to the csv
     string file = db->get_location() + "/csv/users.csv";
@@ -41,9 +44,11 @@ void UserCredentials::addCredential(const std::string& username, const std::stri
 int UserCredentials::authenticateUser(const string& username, const string& password) {
     string output = db->query("users", "password", "username", username);
     if(output == password){
+        ns.user_id = db->query("users", "user_id","username",username);
         return 0;
+
     }
-    if (output == "") {
+    if (output.empty()) {
         cerr << "There is no account associated with that username" << endl;
         return 2;
     }

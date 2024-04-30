@@ -1,54 +1,41 @@
 #include <gtkmm.h>
-#include <iostream>
 #include "Database.h"
-#include <sqlite3.h>
-#include <vector>
+#include "UserCredentials.h"
+#include "Napspot.h"
 #include "MyWindow.h"
-#include <gtkmm/window.h>
-#include "AppForum.h"
-using namespace std;
+
 
 Database db("napspots.sqlite", "../database");
 UserCredentials uc;
 
+Napspot ns("10000");
+
 int main(int argc, char *argv[]) {
-    //a
-   //vector<string> tab1col = {"location_id", "name", "attribute", "reservation"};
-   //vector<string> tab1val = {"7", "lafayette_college", "sunny", "false"};
-
-    //db.add_row(db.get_curr(), "locations", tab1col, tab1val);
-    //cout << db.query("locations", "location_id", "5","name");
-    uc.addCredential("max_votaw2","password1");
-    uc.addCredential("max_votaw2","password1");
-    //cout << uc.authenticateUser("max_votaw", "password1") << endl;
-    //cout << uc.authenticateUser("max_votax", "password1") << endl;
 
 
-    auto app =
-            Gtk::Application::create(argc, argv, "edu.cs205.example03");
-
-    Gtk::Window window;
-    window.set_title("App Forum");
-    window.set_default_size(600, 400);
-
-    // Create the AppForum instance and add it to the window
-    AppForum app_forum;
-    window.add(app_forum);
-
-    // Show the window and run the application
-    window.show_all();
-    return app->run(window);
-    //test code to run usrnme pswd GUI
     /*
-    auto app = Gtk::Application::create(argc, argv, "org.gtkmm.example");
+    std::vector<std::string> attribute{"warm"};
+    std::vector<std::string> attribute2{"chilly"};
+    std::vector<std::string> attribute3{"quiet"};
+    std::vector<std::string> attribute4{"noisy"};
+    std::vector<std::string> attribute5{"bright"};
+    std::vector<std::string> attribute6{"dark"};
+    std::vector<std::string> attribute7{"dark", "quiet"};
+
+    ns.clear_napspots();
+    ns.add_napspot("cabin", attribute);
+    ns.add_napspot("mariana trench", attribute2);
+    ns.add_napspot("japan", attribute3);
+    ns.add_napspot("himalayas", attribute4);
+    ns.add_napspot("garden", attribute5);
+    ns.add_napspot("a hidden cave tucked away in the cliffs along the mediterranean coast", attribute6);
+    ns.add_napspot("lezhis room", attribute7);
+    */
+
+
+    auto app = Gtk::Application::create(argc, argv, "org.example.DatabaseWindow");
+
     MyWindow window;
     return app->run(window);
-     */
+
 }
-
-
-
-
-
-
-

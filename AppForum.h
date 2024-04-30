@@ -1,21 +1,18 @@
-//
-// Created by laure on 2024/4/15.
-//
+#ifndef APPFORUM_H
+#define APPFORUM_H
 
-#ifndef FUCHSIA2_APPFORUM_H
-#define FUCHSIA2_APPFORUM_H
-
-#include <gtkmm.h>
+#include <gtkmm/box.h>
+#include <gtkmm/button.h>
+#include <gtkmm/textview.h>
+#include <gtkmm/entry.h>
 #include <vector>
 #include <string>
 
 struct Comment {
     std::string text;
-    // Add any other necessary fields for comments
 };
 
-class AppForum : public Gtk::Box
-{
+class AppForum : public Gtk::Box {
 public:
     AppForum();
     virtual ~AppForum();
@@ -23,12 +20,16 @@ public:
 protected:
     Gtk::TextView forum_text_view;
     Gtk::Entry forum_text_entry;
-    Gtk::Button forum_post_button;
-
+    Gtk::Button post_comment_button;
+    Gtk::Box posts_container; // Use Gtk::Box instead of Gtk::VBox
     std::vector<std::pair<std::string, std::vector<Comment>>> forum_posts;
+    std::vector<std::pair<Gtk::Button*, std::string>> comment_buttons; // Pair of buttons and the post text they correspond to
 
-    void on_forum_post_button_clicked();
-    void on_comment_button_clicked(const std::string& post_text);
+    void initUI();
+    void on_post_comment_button_clicked();
+    void on_comment_button_clicked(std::string post_text);
+    void update_forum_text_view();
+    void add_post_with_comment_button(const std::string& post_text);
 };
 
-#endif //FUCHSIA2_APPFORUM_H
+#endif // APPFORUM_H
