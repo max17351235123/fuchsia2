@@ -527,6 +527,4 @@ void ButtonWindow::on_button_get_datetime_clicked() {
 
     // Print the formatted date-time string (for demonstration purposes)
     std::cout << "Formatted Date-Time: "+ m_formatted_datetime  << std::endl;
-
-
 }
