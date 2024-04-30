@@ -3,7 +3,7 @@
 #include "Napspot.h"
 
 extern Napspot ns;
-extern
+extern Database db;
 
 ButtonWindow::ButtonWindow()
         : m_VBox(Gtk::ORIENTATION_VERTICAL)
@@ -105,7 +105,7 @@ void ButtonWindow::initialize_tab_2() {
         vbox->pack_start(*hbox_name, Gtk::PACK_SHRINK);
 
         // Create a label for the Napspot Name
-        auto label_name = Gtk::make_managed<Gtk::Label>("Napspot ID:");
+        auto label_name = Gtk::make_managed<Gtk::Label>("Napspot name:");
         hbox_name->pack_start(*label_name, Gtk::PACK_SHRINK);
 
         // Create an entry for the Napspot Name
@@ -212,7 +212,7 @@ void ButtonWindow::initialize_tab_5() {
     vbox->pack_start(*hbox_entry, Gtk::PACK_SHRINK);
 
     // Create a label for the Napspot ID entry
-    auto label_napspot_id = Gtk::make_managed<Gtk::Label>("Napspot ID:");
+    auto label_napspot_id = Gtk::make_managed<Gtk::Label>("Napspot name:");
     hbox_entry->pack_start(*label_napspot_id, Gtk::PACK_SHRINK);
 
     // Create an entry for the Napspot ID
@@ -260,7 +260,7 @@ void ButtonWindow::initialize_tab_6() {
     vbox->pack_start(*hbox_entry, Gtk::PACK_SHRINK);
 
     // Create a label for the User ID entry
-    auto label_user_id = Gtk::make_managed<Gtk::Label>("User ID:");
+    auto label_user_id = Gtk::make_managed<Gtk::Label>("Username:");
     hbox_entry->pack_start(*label_user_id, Gtk::PACK_SHRINK);
 
     // Create an entry for the User ID
@@ -330,7 +330,7 @@ void ButtonWindow::initialize_tab_7() {
 
 void ButtonWindow::on_fetch_reservations_clicked() {
     // Get the entered User ID
-    std::string user_id = m_entry_user_id->get_text();
+    string user_id = db.query("users","user_id","username", m_entry_user_id->get_text());
 
     // Clear the existing reservations from the tree model
     m_refTreeModel_reservations->clear();
@@ -373,7 +373,7 @@ void ButtonWindow::on_fetch_reservations_clicked() {
 
 void ButtonWindow::on_fetch_reviews_clicked() {
     // Get the entered Napspot ID
-    std::string napspot_id = m_entry_napspot_id->get_text();
+    string napspot_id = db.query("users","user_id","username", m_entry_napspot_id->get_text());
 
     // Clear the existing reviews from the tree model
     m_refTreeModel_reviews->clear();
@@ -445,7 +445,7 @@ void ButtonWindow::on_button_clicked(const std::string& dbPath, const std::strin
 
 void ButtonWindow::on_submit_review() {
     // Get the Napspot Name from the entry
-    Glib::ustring napspot_name = m_entry_name->get_text();
+    string napspot_name = db.query("users","user_id","username", m_entry_name->get_text());
 
     // Get the Review from the text view
     Glib::ustring review = m_text_view->get_buffer()->get_text();
