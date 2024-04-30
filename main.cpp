@@ -1,11 +1,9 @@
 #include <gtkmm.h>
-#include "ButtonWindow.h"
 #include "Database.h"
 #include "UserCredentials.h"
 #include "Napspot.h"
 #include "MyWindow.h"
-#include <vector>
-#include "ReservationWindow.h"
+
 
 Database db("napspots.sqlite", "../database");
 UserCredentials uc;
@@ -40,4 +38,4 @@ int main(int argc, char *argv[]) {
     MyWindow window;
     return app->run(window);
 
-    }
+}
