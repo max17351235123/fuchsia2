@@ -45,7 +45,7 @@ ReservationWindow::ReservationWindow(const int& id)
     hbox_month_year->pack_start(*combo_month, Gtk::PACK_EXPAND_WIDGET);
 
     // Create a combo box for selecting the year
-    for (int i = 2023; i <= 2033; ++i) {
+    for (int i = 2024; i <= 2034; ++i) {
         combo_year->append(std::to_string(i));
     }
     combo_year->set_active(0);
@@ -128,7 +128,7 @@ void ReservationWindow::on_button_reserve_clicked() {
     } else {
         ns.add_reservation(to_string(id),m_formatted_datetime);
         Gtk::MessageDialog dialog(*this, "Reservation made. Hope you're feeling eepy!", false,
-                                  Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK);
+                                  Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);
 
         dialog.run();
     }
