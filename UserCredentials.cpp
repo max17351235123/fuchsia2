@@ -10,6 +10,8 @@
 #include "Database.h"
 using namespace std;
 
+extern Napspot ns;
+
 UserCredentials::UserCredentials() {
     db = Database::get_db("napspots.sqlite", "../database");
 }
@@ -42,7 +44,7 @@ void UserCredentials::addCredential(const std::string& username, const std::stri
 int UserCredentials::authenticateUser(const string& username, const string& password) {
     string output = db->query("users", "password", "username", username);
     if(output == password){
-        ns = new Napspot(db->query("users", "user_id","username",username));
+        ns.user_id = db->query("users", "user_id","username",username);
         return 0;
 
     }

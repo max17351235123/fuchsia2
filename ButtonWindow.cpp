@@ -21,6 +21,9 @@ ButtonWindow::ButtonWindow()
     initialize_tab_2();
     initialize_tab_3();
     initialize_tab_4();
+    initialize_tab_4();
+    initialize_tab_5();
+    initialize_tab_6();
 
     // Add the notebook to the vertical box
     m_VBox.pack_start(m_Notebook);
@@ -231,6 +234,91 @@ void ButtonWindow::initialize_tab_3() {
 }
 
 void ButtonWindow::initialize_tab_4() {
+
+    auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL, 10);
+    tab_box_4.add(*vbox);
+    auto hbox_name = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
+    vbox->pack_start(*hbox_name, Gtk::PACK_SHRINK);
+
+
+    auto label_name = Gtk::make_managed<Gtk::Label>("Napspot Name:");
+    hbox_name->pack_start(*label_name, Gtk::PACK_SHRINK);
+
+    m_napspot_name = Gtk::make_managed<Gtk::Entry>();
+    hbox_name->pack_start(*m_napspot_name, Gtk::PACK_EXPAND_WIDGET);
+
+    //box1
+    auto hbox_attr = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
+    vbox->pack_start(*hbox_attr, Gtk::PACK_SHRINK);
+
+    //labels for attributes
+    auto label_attr1 = Gtk::make_managed<Gtk::Label>("Attributes:");
+    hbox_attr->pack_start(*label_attr1, Gtk::PACK_SHRINK);
+
+    //attr1
+    m_combo_attr1 = Gtk::make_managed<Gtk::ComboBoxText>();
+    m_combo_attr1->append("Warm");
+    m_combo_attr1->append("Chilly");
+    hbox_attr->pack_start(*m_combo_attr1, Gtk::PACK_SHRINK);
+    //attr2
+    m_combo_attr2 = Gtk::make_managed<Gtk::ComboBoxText>();
+    m_combo_attr2->append("Quiet");
+    m_combo_attr2->append("Noisy");
+    hbox_attr->pack_start(*m_combo_attr2, Gtk::PACK_SHRINK);
+    //attr3
+    m_combo_attr3 = Gtk::make_managed<Gtk::ComboBoxText>();
+    m_combo_attr3->append("Dark");
+    m_combo_attr3->append("Bright");
+    // Add more attributes as needed
+    hbox_attr->pack_start(*m_combo_attr3, Gtk::PACK_SHRINK);
+
+
+    auto button_add_napspot = Gtk::make_managed<Gtk::Button>("Add Napspot");
+    button_add_napspot->signal_clicked().connect(sigc::mem_fun(*this, &ButtonWindow::on_add_napspot_clicked));
+    vbox->pack_start(*button_add_napspot, Gtk::PACK_SHRINK);
+
+    m_Notebook.append_page(tab_box_4, "Add Napspot");
+}
+
+void ButtonWindow::initialize_tab_5() {
+    // Create a vertical box to hold the widgets
+    auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL, 10);
+    tab_box_5.add(*vbox);
+
+    // Create a horizontal box for the Napspot ID entry
+    auto hbox_entry = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
+    vbox->pack_start(*hbox_entry, Gtk::PACK_SHRINK);
+
+    // Create a label for the Napspot ID entry
+    auto label_napspot_id = Gtk::make_managed<Gtk::Label>("Napspot ID:");
+    hbox_entry->pack_start(*label_napspot_id, Gtk::PACK_SHRINK);
+
+    // Create an entry for the Napspot ID
+    m_entry_napspot_id = Gtk::make_managed<Gtk::Entry>();
+    hbox_entry->pack_start(*m_entry_napspot_id, Gtk::PACK_EXPAND_WIDGET);
+
+    // Create a button to fetch reviews
+    auto button_fetch_reviews = Gtk::make_managed<Gtk::Button>("Fetch Reviews");
+    button_fetch_reviews->signal_clicked().connect(sigc::mem_fun(*this, &ButtonWindow::on_fetch_reviews_clicked));
+    vbox->pack_start(*button_fetch_reviews, Gtk::PACK_SHRINK);
+
+    // Create a tree model and tree view for reviews
+    m_refTreeModel_reviews = Gtk::ListStore::create(m_columns_reviews);
+    m_treeView_reviews.set_model(m_refTreeModel_reviews);
+    m_treeView_reviews.append_column("Review ID", m_columns_reviews.m_col_review_id);
+    m_treeView_reviews.append_column("User ID", m_columns_reviews.m_col_user_id);
+    m_treeView_reviews.append_column("Text", m_columns_reviews.m_col_text);
+    m_treeView_reviews.append_column("Rating", m_columns_reviews.m_col_rating);
+
+    // Create a scrolled window and add the tree view
+    auto scrolledWindow_reviews = Gtk::make_managed<Gtk::ScrolledWindow>();
+    scrolledWindow_reviews->add(m_treeView_reviews);
+    vbox->pack_start(*scrolledWindow_reviews, Gtk::PACK_EXPAND_WIDGET);
+
+    // Add the fifth tab to the notebook
+    m_Notebook.append_page(tab_box_5, "Reviews");
+}
+void ButtonWindow::initialize_tab_6() {
     post_comment_button.signal_clicked().connect(sigc::mem_fun(*this, &ButtonWindow::on_post_comment_button_clicked));
 
     posts_container.pack_start(forum_text_view, Gtk::PACK_EXPAND_WIDGET);
@@ -239,9 +327,74 @@ void ButtonWindow::initialize_tab_4() {
     m_Notebook.append_page(posts_container, "Forum");
 
     show_all_children();  // Make sure all widgets are shown
+}
+
+
+void ButtonWindow::on_fetch_reviews_clicked() {
+    // Get the entered Napspot ID
+    std::string napspot_id = m_entry_napspot_id->get_text();
+
+    // Clear the existing reviews from the tree model
+    m_refTreeModel_reviews->clear();
+
+    // Fetch reviews from the database based on the Napspot ID
+    sqlite3* db;
+    int rc = sqlite3_open("../database/napspots.sqlite", &db);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Failed to open database: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_close(db);
+        return;
     }
 
+    std::string query = "SELECT * FROM reviews WHERE napspot_id = ?";
+    sqlite3_stmt* stmt;
+    rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Failed to prepare statement: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return;
+    }
 
+    sqlite3_bind_text(stmt, 1, napspot_id.c_str(), -1, SQLITE_TRANSIENT);
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        int review_id = sqlite3_column_int(stmt, 0);
+        std::string user_id = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        std::string text = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+        int rating = sqlite3_column_int(stmt, 4);
+
+        Gtk::TreeModel::Row row = *(m_refTreeModel_reviews->append());
+        row[m_columns_reviews.m_col_review_id] = review_id;
+        row[m_columns_reviews.m_col_user_id] = user_id;
+        row[m_columns_reviews.m_col_text] = text;
+        row[m_columns_reviews.m_col_rating] = rating;
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+}
+
+void ButtonWindow::on_add_napspot_clicked() {
+    // Get the Napspot Name from the entry
+    Glib::ustring napspot_name = m_napspot_name->get_text();
+    vector<string> attribute;
+    // Get the selected Rating from the combo box
+    attribute.push_back((m_combo_attr1->get_active_text()));
+
+    // Get the selected Rating from the combo box
+    attribute.push_back((m_combo_attr2->get_active_text()));
+
+    // Get the selected Rating from the combo box
+    attribute.push_back((m_combo_attr3->get_active_text()));
+
+    // Call a method to process the review
+
+    ns.add_napspot(napspot_name,attribute);
+
+    Gtk::MessageDialog dialog(*this, "Napspot Added!", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK);
+    dialog.run();
+}
 
 void ButtonWindow::on_button_clicked(const std::string& dbPath, const std::string& tableName, const std::string& attribute) {
     ns.filter_by_attribute(attribute);
