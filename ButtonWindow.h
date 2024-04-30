@@ -23,7 +23,6 @@ private:
     void on_fetch_reviews_clicked();
     void on_fetch_reservations_clicked();
     void on_add_napspot_clicked();
-    void on_button_get_datetime_clicked();
     void on_post_comment_button_clicked();
     void on_comment_button_clicked(std::string post_text);
     void update_forum_text_view();
@@ -31,7 +30,6 @@ private:
     void on_submit_review();
     void initialize_tab_1();
     void initialize_tab_2();
-    void initialize_tab_3();
     void initialize_tab_4();
     void initialize_tab_5();
     void initialize_tab_6();
@@ -59,13 +57,6 @@ private:
     Gtk::TextView* m_text_view;
     Gtk::ComboBoxText* m_combo_rating;
 
-    //tab 3
-    Gtk::ComboBoxText* combo_month;
-    Gtk::ComboBoxText* combo_year;
-    Gtk::ComboBoxText* combo_day_first;
-    Gtk::ComboBoxText* combo_day_second;
-    Gtk::ComboBoxText* combo_time;
-    Gtk::ComboBoxText* combo_am_pm;
 
     //tab4
     Gtk::Entry* m_napspot_name;
