@@ -23,6 +23,12 @@ private:
     void initialize_tab_2();
     void initialize_tab_3();
     void initialize_tab_4();
+    void initUI();
+    void on_post_comment_button_clicked();
+    void on_comment_button_clicked(std::string post_text);
+    void update_forum_text_view();
+    void add_post_with_comment_button(const std::string& post_text);
+
 
     Gtk::Notebook m_Notebook;
     Gtk::Box m_VBox;
@@ -43,6 +49,15 @@ private:
     Gtk::ComboBoxText* combo_day_second;
     Gtk::ComboBoxText* combo_time;
     Gtk::ComboBoxText* combo_am_pm;
+
+    //declare variable for tab4
+    Gtk::TextView forum_text_view;
+    Gtk::Entry forum_text_entry;
+    Gtk::Button post_comment_button;
+    Gtk::Box posts_container; // Use Gtk::Box instead of Gtk::VBox
+    std::vector<std::pair<std::string, std::vector<Comment>>> forum_posts;
+    std::vector<std::pair<Gtk::Button*, std::string>> comment_buttons; // Pair of buttons and the post text they correspond to
+
 
 
 

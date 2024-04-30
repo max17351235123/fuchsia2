@@ -228,20 +228,20 @@ void ButtonWindow::initialize_tab_3() {
     m_Notebook.append_page(tab_box_3, "Select Date and Time");
 }
 void ButtonWindow::initialize_tab_4() {
-    AppForum::AppForum()
+    ButtonWindow::ButtonWindow()
     : Gtk::Box(Gtk::ORIENTATION_VERTICAL),
             post_comment_button("Post")
     {
         initUI();
     }
 
-    AppForum::~AppForum() {
+    ButtonWindow::~ButtonWindow() {
         for (auto& button_pair : comment_buttons) {
             delete button_pair.first; // Ensure we clean up dynamically created buttons
         }
     }
 
-    void AppForum::initUI() {
+    void ButtonWindow::initUI() {
         // Set up the forum text view and make it read-only
         forum_text_view.set_editable(false);
         forum_text_view.set_cursor_visible(false);
@@ -265,7 +265,7 @@ void ButtonWindow::initialize_tab_4() {
         show_all_children();
     }
 
-    void AppForum::on_post_comment_button_clicked() {
+    void ButtonWindow::on_post_comment_button_clicked() {
         std::string text = forum_text_entry.get_text();
         if (!text.empty()) {
             add_post_with_comment_button(text);
@@ -276,7 +276,7 @@ void ButtonWindow::initialize_tab_4() {
         }
     }
 
-    void AppForum::add_post_with_comment_button(const std::string& post_text) {
+    void ButtonWindow::add_post_with_comment_button(const std::string& post_text) {
         forum_posts.emplace_back(post_text, std::vector<Comment>());
 
         // Create a new comment button for this post
@@ -288,33 +288,6 @@ void ButtonWindow::initialize_tab_4() {
         comment_buttons.emplace_back(comment_button, post_text);
     }
 
-    void AppForum::on_comment_button_clicked(std::string post_text) {
-        // Get comment text and update the forum
-        std::string comment_text = forum_text_entry.get_text();
-        if (!comment_text.empty()) {
-            for (auto& post_pair : forum_posts) {
-                if (post_pair.first == post_text) {
-                    post_pair.second.push_back(Comment{comment_text});
-                    break;
-                }
-            }
-            forum_text_entry.set_text("");
-            update_forum_text_view();
-        } else {
-            std::cout << "No comment entered." << std::endl;
-        }
-    }
-
-    void AppForum::update_forum_text_view() {
-        Glib::ustring forum_content;
-        for (const auto& post_pair : forum_posts) {
-            forum_content += post_pair.first + "\n";
-            for (const auto& comment : post_pair.second) {
-                forum_content += "    " + comment.text + "\n";
-            }
-        }
-        forum_text_view.get_buffer()->set_text(forum_content);
-    }
 
 }
 
@@ -366,4 +339,32 @@ void ButtonWindow::on_button_get_datetime_clicked() {
     std::cout << "Formatted Date-Time: "+ m_formatted_datetime  << std::endl;
 
 
+}
+
+void ButtonWindow::on_comment_button_clicked(std::string post_text) {
+    // Get comment text and update the forum
+    std::string comment_text = forum_text_entry.get_text();
+    if (!comment_text.empty()) {
+        for (auto& post_pair : forum_posts) {
+            if (post_pair.first == post_text) {
+                post_pair.second.push_back(Comment{comment_text});
+                break;
+            }
+        }
+        forum_text_entry.set_text("");
+        update_forum_text_view();
+    } else {
+        std::cout << "No comment entered." << std::endl;
+    }
+}
+
+void ButtonWindow::update_forum_text_view() {
+    Glib::ustring forum_content;
+    for (const auto& post_pair : forum_posts) {
+        forum_content += post_pair.first + "\n";
+        for (const auto& comment : post_pair.second) {
+            forum_content += "    " + comment.text + "\n";
+        }
+    }
+    forum_text_view.get_buffer()->set_text(forum_content);
 }
