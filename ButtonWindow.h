@@ -10,11 +10,13 @@
 #include <gtkmm/comboboxtext.h>
 #include <gtkmm/button.h>
 
+struct Comment {
+    std::string text;
+};
+
 class ButtonWindow : public Gtk::Window {
 public:
     ButtonWindow();
-
-
 
 private:
     void on_button_clicked(const std::string& dbPath, const std::string& tableName, const std::string& attribute);
@@ -22,6 +24,10 @@ private:
     void on_fetch_reservations_clicked();
     void on_add_napspot_clicked();
     void on_button_get_datetime_clicked();
+    void on_post_comment_button_clicked();
+    void on_comment_button_clicked(std::string post_text);
+    void update_forum_text_view();
+    void add_post_with_comment_button(const std::string& post_text);
     void on_submit_review();
     void initialize_tab_1();
     void initialize_tab_2();
@@ -29,6 +35,8 @@ private:
     void initialize_tab_4();
     void initialize_tab_5();
     void initialize_tab_6();
+    void initialize_tab_7();
+
 
     Glib::RefPtr<Gdk::Pixbuf> m_backgroundImage1;
     Glib::RefPtr<Gdk::Pixbuf> m_backgroundImage2;
@@ -77,6 +85,17 @@ private:
     Gtk::Entry* m_entry_user_id; // Add the declaration for m_entry_user_id
     Gtk::TreeView m_treeView_reservations; // Add the declaration for m_treeView_reservations
     Glib::RefPtr<Gtk::ListStore> m_refTreeModel_reservations; // Add the declaration for m_refTreeModel_reservations
+
+    //declare variable for tab7
+    Gtk::TextView forum_text_view;
+    Gtk::Entry forum_text_entry;
+    Gtk::Button post_comment_button;
+    Gtk::Box posts_container; // Use Gtk::Box instead of Gtk::VBox
+    std::vector<std::pair<std::string, std::vector<Comment>>> forum_posts;
+    std::vector<std::pair<Gtk::Button*, std::string>> comment_buttons; // Pair of buttons and the post text they correspond to
+
+
+
 
     class ModelColumnsReservations : public Gtk::TreeModel::ColumnRecord {
     public:
