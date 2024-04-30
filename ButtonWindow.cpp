@@ -375,17 +375,34 @@ void ButtonWindow::initialize_tab_6() {
 }
 
 void ButtonWindow::initialize_tab_7() {
+    // Configure the container for posts and buttons
+    posts_container.set_orientation(Gtk::ORIENTATION_VERTICAL);
+    posts_container.set_spacing(5);
+    posts_container.set_border_width(10);
+
+    // Ensure the forum text view is properly initialized and packed
+    forum_text_view.set_editable(false);  // Assuming it's for display only
+    auto scrolled_window = Gtk::make_managed<Gtk::ScrolledWindow>();
+    scrolled_window->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+    scrolled_window->add(forum_text_view);
+    posts_container.pack_start(*scrolled_window, Gtk::PACK_EXPAND_WIDGET);
+
+    // Set up the entry and post button for new posts
+    forum_text_entry.set_placeholder_text("Write something...");
+    post_comment_button.set_label("Post");
     post_comment_button.signal_clicked().connect(sigc::mem_fun(*this, &ButtonWindow::on_post_comment_button_clicked));
 
-
-    posts_container.pack_start(forum_text_view, Gtk::PACK_EXPAND_WIDGET);
+    // Pack the entry and button into the container
     posts_container.pack_start(forum_text_entry, Gtk::PACK_SHRINK);
     posts_container.pack_start(post_comment_button, Gtk::PACK_SHRINK);
+
+    // Add the entire posts container to the notebook page
     m_Notebook.append_page(posts_container, "Forum");
 
-
-    show_all_children();  // Make sure all widgets are shown
+    // Show all children ensures that all widgets are visible
+    posts_container.show_all_children();
 }
+
 
 
 void ButtonWindow::on_fetch_reservations_clicked() {
