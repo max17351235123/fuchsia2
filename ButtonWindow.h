@@ -19,6 +19,7 @@ public:
 private:
     void on_button_clicked(const std::string& dbPath, const std::string& tableName, const std::string& attribute);
     void on_fetch_reviews_clicked();
+    void on_fetch_reservations_clicked();
     void on_add_napspot_clicked();
     void on_button_get_datetime_clicked();
     void on_submit_review();
@@ -27,6 +28,7 @@ private:
     void initialize_tab_3();
     void initialize_tab_4();
     void initialize_tab_5();
+    void initialize_tab_6();
 
     Gtk::Notebook m_Notebook;
     Gtk::Box m_VBox;
@@ -58,9 +60,31 @@ private:
     Gtk::TreeView m_treeView;
     Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
 
-    Gtk::Entry* m_entry_napspot_id; // Add the declaration for m_entry_napspot_id
-    Gtk::TreeView m_treeView_reviews; // Add the declaration for m_treeView_reviews
-    Glib::RefPtr<Gtk::ListStore> m_refTreeModel_reviews; // Add the declaration for m_refTreeModel_reviews
+    // tab 5
+    Gtk::Entry* m_entry_napspot_id;
+    Gtk::TreeView m_treeView_reviews;
+    Glib::RefPtr<Gtk::ListStore> m_refTreeModel_reviews;
+
+    //tab 6
+    Gtk::Box tab_box_6; // Add the declaration for tab_box_6
+    Gtk::Entry* m_entry_user_id; // Add the declaration for m_entry_user_id
+    Gtk::TreeView m_treeView_reservations; // Add the declaration for m_treeView_reservations
+    Glib::RefPtr<Gtk::ListStore> m_refTreeModel_reservations; // Add the declaration for m_refTreeModel_reservations
+
+    class ModelColumnsReservations : public Gtk::TreeModel::ColumnRecord {
+    public:
+        ModelColumnsReservations() {
+            add(m_col_reservation_id);
+            add(m_col_napspot_id);
+            add(m_col_start_time);
+        }
+
+        Gtk::TreeModelColumn<int> m_col_reservation_id;
+        Gtk::TreeModelColumn<Glib::ustring> m_col_napspot_id;
+        Gtk::TreeModelColumn<Glib::ustring> m_col_start_time;
+    };
+
+    ModelColumnsReservations m_columns_reservations;
 
     class ModelColumns : public Gtk::TreeModel::ColumnRecord {
     public:
@@ -92,7 +116,7 @@ private:
         Gtk::TreeModelColumn<int> m_col_rating;
     };
 
-    ModelColumnsReviews m_columns_reviews; // Add the declaration for m_columns_reviews
+    ModelColumnsReviews m_columns_reviews;
 };
 
 #endif // BUTTONWINDOW_H

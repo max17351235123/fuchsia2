@@ -19,6 +19,7 @@ ButtonWindow::ButtonWindow()
     initialize_tab_3();
     initialize_tab_4();
     initialize_tab_5();
+    initialize_tab_6();
 
 
     // Add the notebook to the vertical box
@@ -309,11 +310,110 @@ void ButtonWindow::initialize_tab_5() {
 
     // Create a scrolled window and add the tree view
     auto scrolledWindow_reviews = Gtk::make_managed<Gtk::ScrolledWindow>();
+    scrolledWindow_reviews->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
     scrolledWindow_reviews->add(m_treeView_reviews);
     vbox->pack_start(*scrolledWindow_reviews, Gtk::PACK_EXPAND_WIDGET);
 
+    // Set the tree view to expand and fill the available space
+    m_treeView_reviews.set_hexpand(true);
+    m_treeView_reviews.set_vexpand(true);
+
+    // Set the vbox to expand and fill the tab
+    vbox->set_hexpand(true);
+    vbox->set_vexpand(true);
+
     // Add the fifth tab to the notebook
     m_Notebook.append_page(tab_box_5, "Reviews");
+}
+
+void ButtonWindow::initialize_tab_6() {
+    // Create a vertical box to hold the widgets
+    auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL, 10);
+    tab_box_6.add(*vbox);
+
+    // Create a horizontal box for the User ID entry
+    auto hbox_entry = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
+    vbox->pack_start(*hbox_entry, Gtk::PACK_SHRINK);
+
+    // Create a label for the User ID entry
+    auto label_user_id = Gtk::make_managed<Gtk::Label>("User ID:");
+    hbox_entry->pack_start(*label_user_id, Gtk::PACK_SHRINK);
+
+    // Create an entry for the User ID
+    m_entry_user_id = Gtk::make_managed<Gtk::Entry>();
+    hbox_entry->pack_start(*m_entry_user_id, Gtk::PACK_EXPAND_WIDGET);
+
+    // Create a button to fetch reservations
+    auto button_fetch_reservations = Gtk::make_managed<Gtk::Button>("Fetch Reservations");
+    button_fetch_reservations->signal_clicked().connect(sigc::mem_fun(*this, &ButtonWindow::on_fetch_reservations_clicked));
+    vbox->pack_start(*button_fetch_reservations, Gtk::PACK_SHRINK);
+
+    // Create a tree model and tree view for reservations
+    m_refTreeModel_reservations = Gtk::ListStore::create(m_columns_reservations);
+    m_treeView_reservations.set_model(m_refTreeModel_reservations);
+    m_treeView_reservations.append_column("Reservation ID", m_columns_reservations.m_col_reservation_id);
+    m_treeView_reservations.append_column("Napspot ID", m_columns_reservations.m_col_napspot_id);
+    m_treeView_reservations.append_column("Start Time", m_columns_reservations.m_col_start_time);
+
+    // Create a scrolled window and add the tree view
+    auto scrolledWindow_reservations = Gtk::make_managed<Gtk::ScrolledWindow>();
+    scrolledWindow_reservations->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+    scrolledWindow_reservations->add(m_treeView_reservations);
+    vbox->pack_start(*scrolledWindow_reservations, Gtk::PACK_EXPAND_WIDGET);
+
+    // Set the tree view to expand and fill the available space
+    m_treeView_reservations.set_hexpand(true);
+    m_treeView_reservations.set_vexpand(true);
+
+    // Set the vbox to expand and fill the tab
+    vbox->set_hexpand(true);
+    vbox->set_vexpand(true);
+
+    // Add the sixth tab to the notebook
+    m_Notebook.append_page(tab_box_6, "Reservations");
+}
+
+void ButtonWindow::on_fetch_reservations_clicked() {
+    // Get the entered User ID
+    std::string user_id = m_entry_user_id->get_text();
+
+    // Clear the existing reservations from the tree model
+    m_refTreeModel_reservations->clear();
+
+    // Fetch reservations from the database based on the User ID
+    sqlite3* db;
+    int rc = sqlite3_open("../database/napspots.sqlite", &db);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Failed to open database: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_close(db);
+        return;
+    }
+
+    std::string query = "SELECT reservation_id, napspot_id, start_time FROM reservations WHERE user_id = ?";
+    sqlite3_stmt* stmt;
+    rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Failed to prepare statement: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return;
+    }
+
+    sqlite3_bind_text(stmt, 1, user_id.c_str(), -1, SQLITE_TRANSIENT);
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        int reservation_id = sqlite3_column_int(stmt, 0);
+        std::string napspot_id = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        std::string start_time = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+
+        Gtk::TreeModel::Row row = *(m_refTreeModel_reservations->append());
+        row[m_columns_reservations.m_col_reservation_id] = reservation_id;
+        row[m_columns_reservations.m_col_napspot_id] = napspot_id;
+        row[m_columns_reservations.m_col_start_time] = start_time;
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
 }
 
 void ButtonWindow::on_fetch_reviews_clicked() {
