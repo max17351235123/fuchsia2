@@ -9,7 +9,8 @@
 
 Database db("napspots.sqlite", "../database");
 UserCredentials uc;
-Napspot ns("1");
+
+Napspot ns("10000");
 
 int main(int argc, char *argv[]) {
 
@@ -30,7 +31,7 @@ int main(int argc, char *argv[]) {
     ns.add_napspot("qua5", attribute6);
     ns.add_napspot("lezhis room", attribute7);
 
-    ns.add_reservation("1", "5:00");
+    //ns.add_reservation("1", "5:00");
     ns.add_review("1", "this nap spot rocks", 5);
 
     std::vector<std::string> output = db.query_all("attributes", "attribute", "napspot_id", "1");
