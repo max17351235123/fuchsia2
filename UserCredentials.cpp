@@ -3,33 +3,61 @@
 //
 
 #include "UserCredentials.h"
+#include "Napspot.h"
 #include <iostream>
+#include <vector>
+#include <sqlite3.h>
+#include "Database.h"
 using namespace std;
-void UserCredentials::addCredential(const std::string& username, const std::string& password) {
-    credentials[username] = password;
-}
-bool UserCredentials::authenticateUser(const std::string& username, const std::string& password) {
 
-    //string output = query("users", "username", username): outputs the password
-    string output = " ";
+extern Napspot ns;
+
+UserCredentials::UserCredentials() {
+    db = Database::get_db("napspots.sqlite", "../database");
+}
+UserCredentials::~UserCredentials(){
+}
+
+void UserCredentials::addCredential(const std::string& username, const std::string& password) {
+
+    //add 1 to the biggest current user_id
+    int user_id = db->id_query("users", "user_id") + 1;
+
+    //add a new account
+    vector<string> usertable = {"user_id", "username", "password"};
+
+    vector<string> newAccount = {to_string(user_id), username, password};
+
+    int auth = authenticateUser(username, password);
+    if (auth != 2) {
+        cerr << "account with that name already exists" << endl;
+        return;
+    }
+
+    db->add_row("users", usertable, newAccount);
+
+    //log it to the csv
+    string file = db->get_location() + "/csv/users.csv";
+    db->log_to_csv("users", file);
+}
+
+int UserCredentials::authenticateUser(const string& username, const string& password) {
+    string output = db->query("users", "password", "username", username);
     if(output == password){
-        return true;
+        ns.user_id = db->query("users", "user_id","username",username);
+        return 0;
+
+    }
+    if (output.empty()) {
+        cerr << "There is no account associated with that username" << endl;
+        return 2;
     }
     if (output != password) {
         cerr << "The password doesn't seem to match the username" << endl;
-        return false;
+        return 1;
     }
-    if (output == " ") {
-        cerr << "There is no account associated with that username" << endl;
-        return false;
-    }
+    return 3;
 }
 
-void UserCredentials::removeCredential(const std::string& username) {
-    credentials.erase(username);
-}
 
-size_t UserCredentials::getNumCredentials() const {
-    return credentials.size();
-}
 

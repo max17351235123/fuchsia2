@@ -1,19 +1,43 @@
-CREATE TABLE locations (
-      location_id     INT NOT NULL UNIQUE,
-      name            TEXT NOT NULL,
-      attribute       TEXT NOT NULL,
-      reservation     BOOL NOT NULL,
-      PRIMARY KEY (location_id)
+CREATE TABLE napspots (
+    napspot_id     INT NOT NULL UNIQUE,
+    name           TEXT NOT NULL UNIQUE,
+    PRIMARY KEY (napspot_id)
 );
+
+CREATE TABLE filtered_napspots (
+    napspot_id     INT NOT NULL UNIQUE,
+    name           TEXT NOT NULL UNIQUE,
+    PRIMARY KEY (napspot_id)
+);
+
+CREATE TABLE attributes (
+    attribute_id INT NOT NULL UNIQUE,
+    napspot_id INT NOT NULL,
+    attribute TEXT NOT NULL,
+    PRIMARY KEY (attribute_id),
+    FOREIGN KEY (napspot_id) REFERENCES napspots(napspot_id)
+);
+
 
 CREATE TABLE reviews (
       review_id    INT NOT NULL UNIQUE,
       user_id     TEXT NOT NULL,
-      location_id TEXT NOT NULL,
+      napspot_id TEXT NOT NULL,
       txt        TEXT NOT NULL,
+      rating     INT NOT NULL,
       PRIMARY KEY (review_id),
       FOREIGN KEY (user_id) REFERENCES users(user_id),
-      FOREIGN KEY (location_id) REFERENCES locations(location_id)
+      FOREIGN KEY (napspot_id) REFERENCES napspots(napspot_id)
+);
+
+CREATE TABLE reservations (
+    reservation_id INT NOT NULL UNIQUE,
+    user_id TEXT NOT NULL,
+    napspot_id TEXT NOT NULL,
+    start_time TEXT NOT NULL,
+    PRIMARY KEY (reservation_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (napspot_id) REFERENCES napspots(napspot_id)
 );
 
 CREATE TABLE users (
@@ -26,6 +50,6 @@ CREATE TABLE users (
 
 .separator ","
 .mode csv
-.import "csv/locations.csv" locations
+.import "csv/napspots.csv" napspots
 .import "csv/users.csv"  users
 .import "csv/reviews.csv" reviews
