@@ -3,12 +3,20 @@
 #include "Napspot.h"
 
 extern Napspot ns;
+extern
 
 ButtonWindow::ButtonWindow()
         : m_VBox(Gtk::ORIENTATION_VERTICAL)
 {
     set_title("Choose an Attribute");
     set_default_size(1200, 600);
+
+    m_backgroundImage1 = Gdk::Pixbuf::create_from_file("path/to/image1.png");
+    m_backgroundImage2 = Gdk::Pixbuf::create_from_file("path/to/image2.png");
+    m_backgroundImage3 = Gdk::Pixbuf::create_from_file("path/to/image3.png");
+    m_backgroundImage4 = Gdk::Pixbuf::create_from_file("path/to/image4.png");
+    m_backgroundImage5 = Gdk::Pixbuf::create_from_file("path/to/image5.png");
+    m_backgroundImage6 = Gdk::Pixbuf::create_from_file("path/to/image6.png");
 
     // Configure the notebook
     m_Notebook.set_border_width(10);

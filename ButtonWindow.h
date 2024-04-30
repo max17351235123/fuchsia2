@@ -30,6 +30,13 @@ private:
     void initialize_tab_5();
     void initialize_tab_6();
 
+    Glib::RefPtr<Gdk::Pixbuf> m_backgroundImage1;
+    Glib::RefPtr<Gdk::Pixbuf> m_backgroundImage2;
+    Glib::RefPtr<Gdk::Pixbuf> m_backgroundImage3;
+    Glib::RefPtr<Gdk::Pixbuf> m_backgroundImage4;
+    Glib::RefPtr<Gdk::Pixbuf> m_backgroundImage5;
+    Glib::RefPtr<Gdk::Pixbuf> m_backgroundImage6;
+
     Gtk::Notebook m_Notebook;
     Gtk::Box m_VBox;
     Gtk::Label m_Label1;
