@@ -8,6 +8,7 @@ step 2. ```% make drop```
 step 3. ```% make build```
 
 step 4. 
+
   on mac:
   1. ```% brew install gtkmm3"```
         
