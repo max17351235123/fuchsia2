@@ -21,6 +21,6 @@ step 4.
 
 step 5. do the thugshaker deluxe 
         
-step 5. run main.cpp
+step 6. run main.cpp
 
 
