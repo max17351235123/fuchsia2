@@ -10,7 +10,7 @@ step 3. ```% make build```
 step 4. 
 
   on mac:
-  1. ```% brew install gtkmm3"```
+  1. ```% brew install gtkmm3```
         
   on linxux: 
   1. ```sudo apt update```
