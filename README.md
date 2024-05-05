@@ -2,7 +2,7 @@
 
 ___
 
-## NAMEGOESHERE
+## 
 
 ---
 
@@ -18,27 +18,31 @@ Project implementation by Lezhi Ful, Simon Smith, and Max Votaw
 
 ----
 
-step 1. ```% cd fuchsia2/database```
+**Step 1.** Make sure you have homebrew installed: https://brew.sh/
 
-step 2. ```% make drop```
+**Step 2.** Clone the repository
 
-step 3. ```% make build```
+**Step 3.** ```% cd fuchsia2/database```
 
-step 4. 
+**Step 4.** ```% make drop```
 
-  on mac:
+**Step 5.** ```% make build```
+
+**Step 6.** 
+
+  On MacOS:
   1. ```% brew install gtkmm3```
         
-  on linxux: 
+  On Linux: 
   1. ```sudo apt update```
   
   2. ```sudo apt upgrade```
   
   3. ```sudo apt install libgtkmm-3.0-dev```
 
-step 5. get sleepy
+**step 7.** Get sleepy
         
-step 6. run main.cpp
+**step 8.** Run main.cpp
 
 ## Using
 
