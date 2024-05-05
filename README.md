@@ -18,6 +18,8 @@ step 4.
   2. ```sudo apt upgrade```
   
   3. ```sudo apt install libgtkmm-3.0-dev```
+
+step 5. do the thugshaker deluxe 
         
 step 5. run main.cpp
 
