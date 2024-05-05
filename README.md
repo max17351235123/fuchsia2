@@ -1,7 +1,7 @@
 # fuchsia2
 fuchsia SSGS
 
-step 1. ```% cd database```
+step 1. ```% cd fuchsia2/database```
 
 step 2. ```% make drop```
 
