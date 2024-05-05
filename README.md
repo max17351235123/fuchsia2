@@ -2,11 +2,11 @@
 
 ___
 
-## 
+## Pillow Petz
 
 ---
 
-A system to create, reserve, and review napspots for pets
+A Zillow-like system to create, reserve, and review napspots for pets
 
 ## Credits
 
@@ -75,8 +75,6 @@ Here you can enter your username to see all of the past and future reservations 
 #### 6. Forum
 
 Here you can type to other nappers, and reply to their messages.
-
-
 
 
 ## Issues

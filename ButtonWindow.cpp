@@ -157,15 +157,15 @@ void ButtonWindow::initialize_tab_2() {
 
 void ButtonWindow::initialize_tab_4() {
 
+    //set up the structure
     auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL, 10);
     tab_box_4.add(*vbox);
     auto hbox_name = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
     vbox->pack_start(*hbox_name, Gtk::PACK_SHRINK);
 
-
+    //button1
     auto label_name = Gtk::make_managed<Gtk::Label>("Napspot Name:");
     hbox_name->pack_start(*label_name, Gtk::PACK_SHRINK);
-
     m_napspot_name = Gtk::make_managed<Gtk::Entry>();
     hbox_name->pack_start(*m_napspot_name, Gtk::PACK_EXPAND_WIDGET);
 
@@ -191,7 +191,7 @@ void ButtonWindow::initialize_tab_4() {
     m_combo_attr3 = Gtk::make_managed<Gtk::ComboBoxText>();
     m_combo_attr3->append("Dark");
     m_combo_attr3->append("Bright");
-    // Add more attributes as needed
+
     hbox_attr->pack_start(*m_combo_attr3, Gtk::PACK_SHRINK);
 
 
@@ -203,28 +203,28 @@ void ButtonWindow::initialize_tab_4() {
 }
 
 void ButtonWindow::initialize_tab_5() {
-    // Create a vertical box to hold the widgets
+    //create a verticla box to hold the widgets
     auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL, 10);
     tab_box_5.add(*vbox);
 
-    // Create a horizontal box for the Napspot ID entry
+    //create a horizontal box for the Napspot ID entry
     auto hbox_entry = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_HORIZONTAL, 10);
     vbox->pack_start(*hbox_entry, Gtk::PACK_SHRINK);
 
-    // Create a label for the Napspot ID entry
+    //create a label for the Napspot ID entry
     auto label_napspot_id = Gtk::make_managed<Gtk::Label>("Napspot name:");
     hbox_entry->pack_start(*label_napspot_id, Gtk::PACK_SHRINK);
 
-    // Create an entry for the Napspot ID
+    //create an entry for the Napspot ID
     m_entry_napspot_id = Gtk::make_managed<Gtk::Entry>();
     hbox_entry->pack_start(*m_entry_napspot_id, Gtk::PACK_EXPAND_WIDGET);
 
-    // Create a button to fetch reviews
+    //create a button to ftech reviews
     auto button_fetch_reviews = Gtk::make_managed<Gtk::Button>("Fetch Reviews");
     button_fetch_reviews->signal_clicked().connect(sigc::mem_fun(*this, &ButtonWindow::on_fetch_reviews_clicked));
     vbox->pack_start(*button_fetch_reviews, Gtk::PACK_SHRINK);
 
-    // Create a tree model and tree view for reviews
+    //create a tre model and tree view for reviews
     m_refTreeModel_reviews = Gtk::ListStore::create(m_columns_reviews);
     m_treeView_reviews.set_model(m_refTreeModel_reviews);
     m_treeView_reviews.append_column("Review ID", m_columns_reviews.m_col_review_id);
@@ -232,21 +232,21 @@ void ButtonWindow::initialize_tab_5() {
     m_treeView_reviews.append_column("Text", m_columns_reviews.m_col_text);
     m_treeView_reviews.append_column("Rating", m_columns_reviews.m_col_rating);
 
-    // Create a scrolled window and add the tree view
+    //create a scrolled window and add the tree view
     auto scrolledWindow_reviews = Gtk::make_managed<Gtk::ScrolledWindow>();
     scrolledWindow_reviews->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
     scrolledWindow_reviews->add(m_treeView_reviews);
     vbox->pack_start(*scrolledWindow_reviews, Gtk::PACK_EXPAND_WIDGET);
 
-    // Set the tree view to expand and fill the available space
+    //set the tree view to expand and fill the available space
     m_treeView_reviews.set_hexpand(true);
     m_treeView_reviews.set_vexpand(true);
 
-    // Set the vbox to expand and fill the tab
+    //set the vbox to expand and fill the tab
     vbox->set_hexpand(true);
     vbox->set_vexpand(true);
 
-    // Add the fifth tab to the notebook
+    //add the fifth tab to the notebook
     m_Notebook.append_page(tab_box_5, "Reviews");
 }
 
@@ -304,7 +304,7 @@ void ButtonWindow::initialize_tab_7() {
     posts_container.set_border_width(10);
 
     // Ensure the forum text view is properly initialized and packed
-    forum_text_view.set_editable(false);  // Assuming it's for display only
+    forum_text_view.set_editable(false);
     auto scrolled_window = Gtk::make_managed<Gtk::ScrolledWindow>();
     scrolled_window->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
     scrolled_window->add(forum_text_view);

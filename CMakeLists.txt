@@ -26,7 +26,6 @@ add_executable(fuchsia2
         DatabaseWindow.h
         ReservationWindow.cpp
         ReservationWindow.h
-        AppForum.cpp
 )
 
 
