@@ -178,18 +178,18 @@ void ButtonWindow::initialize_tab_4() {
 
     //attr1
     m_combo_attr1 = Gtk::make_managed<Gtk::ComboBoxText>();
-    m_combo_attr1->append("Warm");
-    m_combo_attr1->append("Chilly");
+    m_combo_attr1->append("warm");
+    m_combo_attr1->append("chilly");
     hbox_attr->pack_start(*m_combo_attr1, Gtk::PACK_SHRINK);
     //attr2
     m_combo_attr2 = Gtk::make_managed<Gtk::ComboBoxText>();
-    m_combo_attr2->append("Quiet");
-    m_combo_attr2->append("Noisy");
+    m_combo_attr2->append("quiet");
+    m_combo_attr2->append("noisy");
     hbox_attr->pack_start(*m_combo_attr2, Gtk::PACK_SHRINK);
     //attr3
     m_combo_attr3 = Gtk::make_managed<Gtk::ComboBoxText>();
-    m_combo_attr3->append("Dark");
-    m_combo_attr3->append("Bright");
+    m_combo_attr3->append("dark");
+    m_combo_attr3->append("bright");
 
     hbox_attr->pack_start(*m_combo_attr3, Gtk::PACK_SHRINK);
 
