@@ -479,6 +479,7 @@ void ButtonWindow::on_comment_button_clicked(std::string post_text) {
 }
 
 
+
 void ButtonWindow::update_forum_text_view() {
     Glib::ustring forum_content;
     for (const auto& post_pair : forum_posts) {
