@@ -12,7 +12,7 @@ A Zillow-like system to create, reserve, and review napspots for pets
 
 ---
 
-Project implementation by Lezhi Ful, Simon Smith, and Max Votaw
+Project implementation by Lezhi Fu, Simon Smith, and Max Votaw
 
 ## Building
 
