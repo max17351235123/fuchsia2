@@ -9,13 +9,33 @@
 
 class DatabaseWindow : public Gtk::Window {
 public:
+    /**
+     * Constructs window that displays data from database
+     * @param dbPath: path to database (ex: ../napspots.sqlite)
+     * @param tableName name of table being displayed in window (in this case the napspots table)
+     */
     DatabaseWindow(const Glib::ustring& dbPath, const Glib::ustring& tableName);
-
 private:
+    /**
+     * Loads data from the database into the TreeView
+     */
     void loadDataFromDatabase();
+    /**
+     * Method for setting up button in each row of data displayed and giving it functionality
+     * @param renderer Passes the buttonrenderer object declared in the constructor for setting up a button w/ each row displayed
+     * @param iter Used to bind onButtonToggled method to a button being clicked
+     */
     void onSetCellData(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
+    /**
+     * Creates an instance of the ReservationWindow class when clicked
+     * @param iter passed to get id of specific row user clicked on
+     * @param renderer passed to make sure to toggle the button off after it's clicked
+     */
     void onButtonToggled(const Gtk::TreeModel::iterator& iter, Gtk::CellRenderer* renderer);
-    void on_reservation_window_hide(ReservationWindow* rWindow);
+
+    /**
+     * Private class for modelling the format of the napspot display window
+     */
     class ModelColumns : public Gtk::TreeModel::ColumnRecord {
     public:
         ModelColumns();

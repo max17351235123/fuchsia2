@@ -76,7 +76,6 @@ Here you can enter your username to see all of the past and future reservations 
 
 Here you can type to other nappers, and reply to their messages.
 
-
 ## Issues
 
 ---

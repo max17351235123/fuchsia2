@@ -82,30 +82,21 @@ sigc::connection toggleConnection;
 void DatabaseWindow::onSetCellData(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter) {
     Gtk::CellRendererToggle* toggleRenderer = dynamic_cast<Gtk::CellRendererToggle*>(renderer);
     if (toggleRenderer) {
-        // Disconnect existing signal connection
         toggleConnection.disconnect();
-
         toggleRenderer->set_active(false);
-        // Connect the signal and store the connection object
         toggleConnection = toggleRenderer->signal_toggled().connect([this, iter, renderer](const Glib::ustring& path) {
-            onButtonToggled(iter, renderer); // Pass renderer as a parameter
+            onButtonToggled(iter, renderer);
         });
     }
 }
 
-void DatabaseWindow::on_reservation_window_hide(ReservationWindow* rWindow){
-    delete rWindow;
-}
 
 void DatabaseWindow::onButtonToggled(const Gtk::TreeModel::iterator& iter, Gtk::CellRenderer* renderer) {
     if (iter) {
         Gtk::TreeModel::Row row = *iter;
         int id = row[m_columns.m_col_id];
 
-
             auto *rWindow = new ReservationWindow(id);
-            rWindow->signal_hide().connect(
-                    sigc::bind(sigc::mem_fun(*this, &DatabaseWindow::on_reservation_window_hide), rWindow));
             rWindow->show();
 
             Gtk::CellRendererToggle* toggleRenderer = dynamic_cast<Gtk::CellRendererToggle*>(renderer);

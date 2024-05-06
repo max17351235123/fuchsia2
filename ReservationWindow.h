@@ -6,10 +6,22 @@
 
 class ReservationWindow : public Gtk::Window {
 public:
+    /**
+     * Constructs a window for creating reservations at a certain napspot
+     * @param id id of napspot ReservationWindow is being constructed for
+     */
     ReservationWindow(const int& id);
+    /**
+     * Helper method for debugging
+     * @return returns reservation String
+     */
     Glib::ustring get_formatted_datetime() const;
 
 private:
+    /**
+     * Adds all the time inputs the user chose to a string and creates a reservation for them if it
+     * doesn't already exist at that napspot
+     */
     void on_button_reserve_clicked();
 
     Gtk::ComboBoxText* combo_month;

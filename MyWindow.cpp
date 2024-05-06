@@ -73,4 +73,3 @@ void MyWindow::on_create_account_clicked() {
     }
 
 }
-

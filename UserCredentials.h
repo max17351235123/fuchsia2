@@ -14,11 +14,27 @@ private:
     Database* db;
 
 public:
+    /**
+     * Constructor that initalizes db being used
+     */
     UserCredentials();
+    /**
+     * Empty Destructor
+     */
     ~UserCredentials();
+    /**
+     * Adds new account to users table & logs to users.csv
+     * @param username
+     * @param password
+     */
     void addCredential(const std::string& username, const std::string& password);
+    /**
+     * Checks if username or password inputted belong to a valid account
+     * @param username
+     * @param password
+     * @return 3 different ints depending on error:incorrect username, incorrect password, correct
+     */
     int authenticateUser(const std::string& username, const std::string& password);
-    //Napspot* ns;
 };
 
 

@@ -241,7 +241,6 @@ vector<string> Database::query_all(const string& table, const string& output_col
     }
 }
 
-
 vector<string> Database::get_data(const string& table, const string& id) {
     string table2 = table;
     string idname = table2.erase(table.size() - 1) + "_id";
@@ -276,9 +275,6 @@ bool Database::subtable(const string& table, const string& subtable, const vecto
  *
  *
  */
-
-
-
 
 int Database::double_query(const string& table, const string& con1_column, const string& con1_val, const string& con2_column, const string& con2_val){
     result.clear();

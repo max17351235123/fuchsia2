@@ -4,8 +4,6 @@ project(fuchsia2)
 set(CMAKE_CXX_STANDARD 14)
 
 
-#a
-# setting up the pkgconfig tool obtain the gtkmm4 locations
 find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-3.0)
 include_directories(${GTKMM_INCLUDE_DIRS})
@@ -27,7 +25,6 @@ add_executable(fuchsia2
         ReservationWindow.cpp
         ReservationWindow.h
 )
-
 
 include_directories(/usr/include)
 link_directories(/usr/lib)

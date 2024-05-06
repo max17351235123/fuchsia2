@@ -2,7 +2,6 @@
 #include <sqlite3.h>
 #include <vector>
 #include <string>
-
 #ifndef FUCHSIA2_DATABASE_H
 #define FUCHSIA2_DATABASE_H
 

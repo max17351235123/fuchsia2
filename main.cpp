@@ -12,7 +12,6 @@ Napspot ns("10000");
 
 int main(int argc, char *argv[]) {
 
-
     /*
     std::vector<std::string> attribute{"warm"};
     std::vector<std::string> attribute2{"chilly"};

@@ -154,7 +154,6 @@ void ButtonWindow::initialize_tab_2() {
     }
 
 
-
 void ButtonWindow::initialize_tab_4() {
 
     //set up the structure

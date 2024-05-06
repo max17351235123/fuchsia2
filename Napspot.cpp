@@ -4,6 +4,7 @@
 #include <vector>
 #include <sqlite3.h>
 
+
 Napspot::Napspot(const string& user_id) {
     db = Database::get_db("napspots.sqlite", "../database");
     this->user_id = user_id;

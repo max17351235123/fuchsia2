@@ -18,6 +18,7 @@ UserCredentials::UserCredentials() {
 UserCredentials::~UserCredentials(){
 }
 
+
 void UserCredentials::addCredential(const std::string& username, const std::string& password) {
 
     //add 1 to the biggest current user_id

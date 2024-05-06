@@ -93,7 +93,6 @@ private:
      */
     void initialize_tab_7();
 
-
     Glib::RefPtr<Gdk::Pixbuf> m_backgroundImage1;
     Glib::RefPtr<Gdk::Pixbuf> m_backgroundImage2;
     Glib::RefPtr<Gdk::Pixbuf> m_backgroundImage3;
